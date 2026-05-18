@@ -1,13 +1,12 @@
-using testWebApp.Data;
+using Mathly.Data;
 using Microsoft.EntityFrameworkCore;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 0));
 
-builder.Services.AddDbContext<testDbContext>(options =>
-    options.UseMySQL(builder.Configuration.GetConnectionString("testConn") ?? throw new InvalidOperationException("Connection string 'MathlyDbContext' not found.")));
-
+builder.Services.AddDbContext<MathlyDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("MathlyDB"), serverVersion));
 // Add services to the container.
 builder.Services.AddRazorPages();
 

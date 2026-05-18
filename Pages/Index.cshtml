@@ -1,0 +1,22 @@
+﻿@page
+@model Mathly.Pages.Students.IndexModel
+@{
+    ViewData["Title"] = "Homasdade page";
+}
+
+<h2>Students</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Study Level</th>
+        <th>Exp Points</th>
+    </tr>
+    @foreach (var student in Model.Students)
+    {
+        <tr>
+            <td>@student.StudentName</td>
+            <td>@student.StudyLevel</td>
+            <td>@student.ExpPoints</td>
+        </tr>
+    }
+</table>
