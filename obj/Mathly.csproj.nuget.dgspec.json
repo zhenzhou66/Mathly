@@ -1,19 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "C:\\Users\\Asus\\OneDrive - Asia Pacific University of Technology And Innovation (APU)\\Documents\\APU Y2S2\\WAPP\\Mathly\\Mathly\\Mathly.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\Asus\\OneDrive - Asia Pacific University of Technology And Innovation (APU)\\Documents\\APU Y2S2\\WAPP\\Mathly\\Mathly\\Mathly.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Asus\\OneDrive - Asia Pacific University of Technology And Innovation (APU)\\Documents\\APU Y2S2\\WAPP\\Mathly\\Mathly\\Mathly.csproj",
-        "projectName": "Mathly",
-        "projectPath": "C:\\Users\\Asus\\OneDrive - Asia Pacific University of Technology And Innovation (APU)\\Documents\\APU Y2S2\\WAPP\\Mathly\\Mathly\\Mathly.csproj",
-        "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Asus\\OneDrive - Asia Pacific University of Technology And Innovation (APU)\\Documents\\APU Y2S2\\WAPP\\Mathly\\Mathly\\obj\\",
-=======
     "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj": {}
   },
   "projects": {
@@ -25,7 +12,6 @@
         "projectPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
         "packagesPath": "C:\\Users\\zhenz\\.nuget\\packages\\",
         "outputPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\obj\\",
->>>>>>> e82b7fa0c21cb4e789049ee4a0c79a0ea5bd19a3
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -35,9 +21,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
-        "originalTargetFrameworks": [
-          "net10.0"
-        ],
+        "originalTargetFrameworks": ["net10.0"],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
@@ -49,9 +33,7 @@
           }
         },
         "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
+          "warnAsError": ["NU1605"]
         },
         "restoreAuditProperties": {
           "enableAudit": "true",
