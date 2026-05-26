@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "dVurGXFcYzw=",
   "success": true,
   "projectFilePath": "C:\\Users\\Asus\\OneDrive - Asia Pacific University of Technology And Innovation (APU)\\Documents\\APU Y2S2\\WAPP\\Mathly\\Mathly\\Mathly.csproj",
+=======
+  "dgSpecHash": "zeeocVwqy7Y=",
+  "success": true,
+  "projectFilePath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
+>>>>>>> e82b7fa0c21cb4e789049ee4a0c79a0ea5bd19a3
   "expectedPackageFiles": [
     "C:\\Users\\Asus\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Asus\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
