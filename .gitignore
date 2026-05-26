@@ -25,3 +25,8 @@ secrets.json
 # OS files
 .DS_Store
 Thumbs.db
+
+#NUget auto generated files
+*.nuget.dgspec.json
+*.nuget.cache
+project.nuget.cache
