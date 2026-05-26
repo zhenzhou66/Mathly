@@ -20,6 +20,7 @@ publish/
 # Secrets & local config
 appsettings.Development.json
 appsettings.Local.json
+appsettings.json
 secrets.json
 
 # OS files

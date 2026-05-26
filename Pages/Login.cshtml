@@ -1,0 +1,24 @@
+﻿@page "/"
+@model Mathly.Pages.LoginModel
+
+<h2>Login</h2>
+
+<form method="post">
+    <div>
+        <label>User ID</label>
+        <input type="text" asp-for="UserID" />
+        <span asp-validation-for="UserID"></span>
+    </div>
+    <div>
+        <label>Password</label>
+        <input type="password" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p style="color:red;">@Model.ErrorMessage</p>
+    }
+
+    <button type="submit">Login</button>
+</form>

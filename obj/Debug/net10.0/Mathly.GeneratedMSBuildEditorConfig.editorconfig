@@ -26,12 +26,8 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/zhenz/OneDrive/Desktop/Y2Sem2/WebAPP/Mathly/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/zhenz/OneDrive/Desktop/Y2Sem2/WebAPP/Mathly/Pages/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+[C:/Users/zhenz/OneDrive/Desktop/Y2Sem2/WebAPP/Mathly/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/zhenz/OneDrive/Desktop/Y2Sem2/WebAPP/Mathly/Pages/Shared/_ValidationScriptsPartial.cshtml]
