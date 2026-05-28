@@ -1326,11 +1326,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
+      "projectUniqueName": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
       "projectName": "Mathly",
-      "projectPath": "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
+      "projectPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
       "packagesPath": "C:\\Users\\zhenz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\obj\\",
+      "outputPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\zhenz\\AppData\\Roaming\\NuGet\\NuGet.Config"
