@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mathly")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef25cc17dde838d8155ecf2f783b4baf07ab6170")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6525879a7000d9739ebdbf3f6622c0f6057683c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mathly")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mathly")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
