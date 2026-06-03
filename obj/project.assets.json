@@ -1321,19 +1321,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zhenz\\.nuget\\packages\\": {}
+    "C:\\Users\\Yap Kean Jie\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
+      "projectUniqueName": "C:\\Users\\Yap Kean Jie\\Mathly\\Mathly.csproj",
       "projectName": "Mathly",
-      "projectPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
-      "packagesPath": "C:\\Users\\zhenz\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\obj\\",
+      "projectPath": "C:\\Users\\Yap Kean Jie\\Mathly\\Mathly.csproj",
+      "packagesPath": "C:\\Users\\Yap Kean Jie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Yap Kean Jie\\Mathly\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\zhenz\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Yap Kean Jie\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -1397,7 +1397,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
