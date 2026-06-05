@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj": {}
+    "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj": {}
   },
   "projects": {
-    "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj": {
+    "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
+        "projectUniqueName": "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
         "projectName": "Mathly",
-        "projectPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
+        "projectPath": "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\Mathly.csproj",
         "packagesPath": "C:\\Users\\zhenz\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\obj\\",
+        "outputPath": "C:\\Users\\zhenz\\OneDrive\\Desktop\\Y2Sem2\\WebAPP\\Mathly\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zhenz\\AppData\\Roaming\\NuGet\\NuGet.Config"
