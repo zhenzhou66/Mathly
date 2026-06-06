@@ -1,0 +1,38 @@
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light site-navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-page="/Index">
+                <img src="Mathly-Logo.jpeg" alt="Mathly Logo" class="nav-logo" />
+                <span class="brand-name">Mathly</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse">
+                <!-- Left side links -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Topics">Topics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/HowItWorks">How it works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Discussion">Discussion</a>
+                    </li>
+                </ul>
+                <!-- Right side buttons -->
+                <ul class="navbar-nav ms-auto d-flex flex-row gap-2">
+                    <li class="nav-item">
+                        <a class="btn btn-nav-signin" asp-area="" asp-page="/Login">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-nav-register" asp-area="" asp-page="/Register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
