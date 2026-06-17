@@ -1,0 +1,139 @@
+@page
+@model Mathly.Pages.Teacher.DashboardModel
+@{
+    Layout = "_LayoutTeacher";
+    ViewData["Title"] = "Dashboard";
+    ViewData["ActivePage"] = "Dashboard";
+    ViewData["TeacherName"] = Model.TeacherName;
+}
+
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <span class="teacher-view-badge">TEACHER VIEW</span>
+        <h1 class="dashboard-greeting">Good morning, @Model.TeacherName</h1>
+    </div>
+    <a asp-page="/Teacher/QuizBuilder" class="btn-new-quiz">+ New quiz</a>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-yellow">
+            <div class="stat-label">Students Enrolled</div>
+            <div class="stat-value">@Model.TotalStudents</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-teal">
+            <div class="stat-label">Quizzes Published</div>
+            <div class="stat-value">@Model.TotalQuizzes</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-green">
+            <div class="stat-label">Avg Class Score</div>
+            <div class="stat-value">@Model.AvgClassScore</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-salmon">
+            <div class="stat-label">Unanswered Questions</div>
+            <div class="stat-value">@Model.UnansweredCount</div>
+            <div class="stat-sub">in discussions</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Row -->
+<div class="row g-3">
+
+    <!-- Topics Table -->
+    <div class="col-lg-8">
+        <div class="content-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="content-card-title">My topics</span>
+                <a asp-page="/Teacher/MyTopics" class="btn-add-topic">+ Add topic</a>
+            </div>
+
+            @if (Model.Topics.Any())
+            {
+                <table class="table table-borderless topics-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Quizzes</th>
+                            <th>Students</th>
+                            <th>Avg</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var topic in Model.Topics)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@topic.TopicName</td>
+                                <td>@topic.QuizCount</td>
+                                <td>@topic.StudentCount</td>
+                                <td>@topic.AvgScore</td>
+                                <td>
+                                    <a asp-page="/Teacher/MyTopics" class="btn-edit">edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+                    No topics yet.
+                    <a asp-page="/Teacher/MyTopics" style="color:#1a1a1a; font-weight:600;">Add your first topic</a>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Right Panels -->
+    <div class="col-lg-4">
+
+        <!-- Needs your reply -->
+        <div class="needs-reply-card mb-3">
+            <div class="needs-reply-title">Needs your reply</div>
+            @if (Model.PendingDiscussions.Any())
+            {
+                @foreach (var disc in Model.PendingDiscussions)
+                {
+                    <div class="reply-item">
+                        <span class="reply-item-text">@disc.QuestionTitle</span>
+                        <a asp-page="/Teacher/Discussion" class="btn-reply">reply</a>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.85rem; margin: 0;">All caught up!</p>
+            }
+        </div>
+
+        <!-- Recent quiz activity -->
+        <div class="content-card">
+            <div class="content-card-title mb-3">Recent quiz activity</div>
+            @if (Model.RecentResults.Any())
+            {
+                @foreach (var result in Model.RecentResults)
+                {
+                    <div class="activity-item">
+                        <span class="activity-student">@result.StudentName</span>
+                        <span class="activity-score">@result.QuizTitle &nbsp; @result.Score</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">No quiz activity yet.</div>
+            }
+        </div>
+
+    </div>
+</div>
