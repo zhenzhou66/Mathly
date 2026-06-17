@@ -37,38 +37,98 @@ namespace Mathly.Pages.Teacher
             public string Score { get; set; }
         }
 
+        private class TopicDto
+        {
+            public string TopicID { get; set; }
+            public string TopicName { get; set; }
+        }
+
+        private class CountDto
+        {
+            public int Value { get; set; }
+        }
+
+        private class ScoreDto
+        {
+            public double Score { get; set; }
+            public string QuizID { get; set; }
+        }
+
+        private class RecentDto
+        {
+            public string StudentName { get; set; }
+            public string QuizTitle { get; set; }
+            public double Score { get; set; }
+        }
+
         public async Task OnGetAsync()
         {
+            // Get teacher name
             var teacher = await _db.Teachers.FindAsync(TeacherID);
             if (teacher != null)
                 TeacherName = teacher.TeacherName;
 
-            var topicIds = await _db.Topics
-                .Where(t => t.TeacherID == TeacherID)
-                .Select(t => t.TopicID)
+            // Raw SQL: Get topics for this teacher (topic table uses userID column)
+            var topicDtos = await _db.Database
+                .SqlQueryRaw<TopicDto>(
+                    "SELECT topicID AS TopicID, topicName AS TopicName FROM topic WHERE userID = {0}", TeacherID)
                 .ToListAsync();
 
-            var quizIds = await _db.Quizzes
+            var topicIds = topicDtos.Select(t => t.TopicID).ToList();
+            if (!topicIds.Any()) return;
+
+            var topicIdList = string.Join(",", topicIds.Select(id => $"'{id}'"));
+
+            // Get quizzes for these topics
+            var allQuizzes = await _db.Quizzes
                 .Where(q => topicIds.Contains(q.TopicID))
-                .Select(q => q.QuizID)
                 .ToListAsync();
 
+            var quizIds = allQuizzes.Select(q => q.QuizID).ToList();
             TotalQuizzes = quizIds.Count;
 
-            TotalStudents = await _db.StudentTopics
-                .Where(st => topicIds.Contains(st.TopicID))
-                .Select(st => st.StudentID)
-                .Distinct()
-                .CountAsync();
+            // Raw SQL: Count distinct students in these topics (studenttopic uses userID column)
+            var studentCountDto = await _db.Database
+                .SqlQueryRaw<CountDto>(
+                    $"SELECT COUNT(DISTINCT userID) AS Value FROM studenttopic WHERE topicID IN ({topicIdList})")
+                .FirstOrDefaultAsync();
+            TotalStudents = studentCountDto?.Value ?? 0;
 
-            var allResults = await _db.QuizResults
-                .Where(r => quizIds.Contains(r.QuizID))
-                .ToListAsync();
+            // Get quiz results and calculate average score
+            List<ScoreDto> allScores = new();
+            if (quizIds.Any())
+            {
+                var quizIdList = string.Join(",", quizIds.Select(id => $"'{id}'"));
 
-            if (allResults.Any())
-                AvgClassScore = $"{allResults.Average(r => r.Score):0}%";
+                // Raw SQL: Get all scores (quizresult uses userID column)
+                allScores = await _db.Database
+                    .SqlQueryRaw<ScoreDto>(
+                        $"SELECT score AS Score, quizID AS QuizID FROM quizresult WHERE quizID IN ({quizIdList})")
+                    .ToListAsync();
 
-            // Discussions with no replies are unanswered
+                if (allScores.Any())
+                    AvgClassScore = $"{allScores.Average(r => r.Score):0}%";
+
+                // Raw SQL: Get recent quiz activity
+                RecentResults = (await _db.Database
+                    .SqlQueryRaw<RecentDto>(
+                        $@"SELECT si.studentName AS StudentName, q.quizTitle AS QuizTitle, qr.score AS Score
+                           FROM quizresult qr
+                           JOIN studentinfo si ON qr.userID = si.userID
+                           JOIN quizzes q ON qr.quizID = q.quizID
+                           WHERE qr.quizID IN ({quizIdList})
+                           ORDER BY qr.resultID DESC
+                           LIMIT 5")
+                    .ToListAsync())
+                    .Select(r => new RecentResult
+                    {
+                        StudentName = r.StudentName,
+                        QuizTitle = r.QuizTitle,
+                        Score = $"{r.Score:0}%"
+                    }).ToList();
+            }
+
+            // Get unanswered discussions using LINQ (comment/discussion UserID matches schema)
             var answeredIds = await _db.Comments
                 .Select(c => c.DiscussionID)
                 .Distinct()
@@ -82,53 +142,31 @@ namespace Mathly.Pages.Teacher
             UnansweredCount = await _db.Discussions
                 .CountAsync(d => !answeredIds.Contains(d.DiscussionID));
 
-            // Build topic rows
-            var topics = await _db.Topics
-                .Where(t => t.TeacherID == TeacherID)
-                .ToListAsync();
-
-            foreach (var t in topics)
+            // Build topics table
+            foreach (var t in topicDtos)
             {
-                var tQuizIds = await _db.Quizzes
+                var tQuizIds = allQuizzes
                     .Where(q => q.TopicID == t.TopicID)
                     .Select(q => q.QuizID)
-                    .ToListAsync();
+                    .ToList();
 
-                var tStudents = await _db.StudentTopics
-                    .Where(st => st.TopicID == t.TopicID)
-                    .Select(st => st.StudentID)
-                    .Distinct()
-                    .CountAsync();
+                // Raw SQL: Count students for this topic
+                var tStudentCountDto = await _db.Database
+                    .SqlQueryRaw<CountDto>(
+                        "SELECT COUNT(DISTINCT userID) AS Value FROM studenttopic WHERE topicID = {0}", t.TopicID)
+                    .FirstOrDefaultAsync();
 
-                var tResults = await _db.QuizResults
-                    .Where(r => tQuizIds.Contains(r.QuizID))
-                    .ToListAsync();
+                var tScores = allScores.Where(r => tQuizIds.Contains(r.QuizID)).ToList();
 
                 Topics.Add(new TopicRow
                 {
                     TopicID = t.TopicID,
                     TopicName = t.TopicName,
                     QuizCount = tQuizIds.Count,
-                    StudentCount = tStudents,
-                    AvgScore = tResults.Any() ? $"{tResults.Average(r => r.Score):0}%" : "—"
+                    StudentCount = tStudentCountDto?.Value ?? 0,
+                    AvgScore = tScores.Any() ? $"{tScores.Average(r => r.Score):0}%" : "—"
                 });
             }
-
-            // Recent quiz results
-            var rawResults = await _db.QuizResults
-                .Where(r => quizIds.Contains(r.QuizID))
-                .Include(r => r.Student)
-                .Include(r => r.Quiz)
-                .OrderByDescending(r => r.ResultID)
-                .Take(5)
-                .ToListAsync();
-
-            RecentResults = rawResults.Select(r => new RecentResult
-            {
-                StudentName = r.Student?.StudentName ?? "Student",
-                QuizTitle = r.Quiz?.QuizTitle ?? "Quiz",
-                Score = $"{r.Score:0}%"
-            }).ToList();
         }
     }
 }
