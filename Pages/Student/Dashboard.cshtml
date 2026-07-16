@@ -1,0 +1,124 @@
+@page "/Student_Dashboard"
+@model Mathly.Pages.Student.DashboardModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Dashboard";
+    ViewData["ActivePage"] = "Dashboard";
+    ViewData["StudentName"] = Model.StudentName;
+}
+
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <span class="student-view-badge">STUDENT VIEW</span>
+        <h1 class="dashboard-greeting">Good morning, @Model.StudentName</h1>
+    </div>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-yellow">
+            <div class="stat-label">XP Points</div>
+            <div class="stat-value">@Model.ExpPoints</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-teal">
+            <div class="stat-label">Day Streak</div>
+            <div class="stat-value">@Model.DayStreak</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-green">
+            <div class="stat-label">Topics In Progress</div>
+            <div class="stat-value">@Model.TopicsInProgress</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-salmon">
+            <div class="stat-label">Class Rank</div>
+            <div class="stat-value">#@Model.ClassRank</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Row -->
+<div class="row g-3">
+
+    <!-- Progress List -->
+    <div class="col-lg-8">
+        <div class="content-card">
+            <div class="content-card-title mb-3">My progress</div>
+
+            @if (Model.ProgressList.Any())
+            {
+                @foreach (var p in Model.ProgressList)
+                {
+                    <div class="progress-row">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="progress-topic-name">@p.TopicName</span>
+                            <span class="progress-percent">@p.ProgressPercentage.ToString("0")%</span>
+                        </div>
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" style="width: @(p.ProgressPercentage)%"></div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">No topics started yet.</div>
+            }
+        </div>
+    </div>
+
+    <!-- Right Panels -->
+    <div class="col-lg-4">
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-card mb-3">
+            <div class="leaderboard-title">Leaderboard</div>
+            @if (Model.Leaderboard.Any())
+            {
+                var rank = 0;
+                @foreach (var l in Model.Leaderboard)
+                {
+                    rank++;
+                    <div class="leaderboard-item @(l.IsCurrentStudent ? "leaderboard-item-me" : "")">
+                        <span class="leaderboard-rank">#@rank</span>
+                        <span class="leaderboard-name">@l.StudentName</span>
+                        <span class="leaderboard-xp">@l.ExpPoints XP</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.85rem; margin: 0;">No rankings yet.</p>
+            }
+        </div>
+
+        <!-- Badges -->
+        <div class="content-card">
+            <div class="content-card-title mb-3">My badges</div>
+            @if (Model.EarnedBadges.Any())
+            {
+                @foreach (var b in Model.EarnedBadges)
+                {
+                    <div class="badge-item">
+                        <span class="badge-icon">🏅</span>
+                        <div class="badge-info">
+                            <span class="badge-name">@b.BadgeName</span>
+                            <span class="badge-date">Earned @b.EarnedDate.ToString("d MMM yyyy")</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">No badges earned yet.</div>
+            }
+        </div>
+
+    </div>
+</div>

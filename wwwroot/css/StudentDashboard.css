@@ -1,0 +1,188 @@
+/* ── Student Layout ── */
+.student-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── Sidebar (shares visual language with .teacher-sidebar) ── */
+.student-sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background-color: #f5f0eb;
+    border-right: 1px solid #e0d9d0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.student-sidebar .nav-logo {
+    height: 28px;
+    width: 28px;
+}
+
+.student-sidebar .sidebar-link-disabled {
+    color: #bbb;
+    cursor: default;
+}
+
+.student-sidebar .sidebar-link-disabled:hover {
+    background-color: transparent;
+    color: #bbb;
+}
+
+/* ── Main Content ── */
+.student-main {
+    margin-left: 220px;
+    flex: 1;
+    background-color: #faf8f5;
+    min-height: 100vh;
+    padding: 2rem 2.5rem;
+}
+
+/* ── Dashboard Header ── */
+.student-view-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background-color: #4CBFBF;
+    color: #1a1a1a;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.3rem;
+}
+
+/* ── Progress List ── */
+.progress-row {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.progress-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.progress-topic-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.progress-percent {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 20px;
+    background-color: #f0ebe4;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    background-color: #5BAD8F;
+}
+
+/* ── Leaderboard Panel ── */
+.leaderboard-card {
+    background-color: #4CBFBF;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.leaderboard-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 0.83rem;
+    color: #fff;
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.leaderboard-item-me {
+    font-weight: 700;
+}
+
+.leaderboard-rank {
+    width: 1.8rem;
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.leaderboard-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.leaderboard-xp {
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+/* ── Badges ── */
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.badge-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.badge-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f5f0eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.badge-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.badge-date {
+    font-size: 0.75rem;
+    color: #888;
+}
