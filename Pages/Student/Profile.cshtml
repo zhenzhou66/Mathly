@@ -1,0 +1,189 @@
+@page "/app/profile"
+@model Mathly.Pages.Student.ProfileModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = "Profile";
+    ViewData["StudentName"] = Model.StudentName;
+}
+
+<!-- Hero -->
+<div class="profile-hero mb-4">
+    <div class="profile-hero-top">
+        <div class="profile-avatar">@Model.StudentName.Substring(0, 1).ToUpper()</div>
+        <div class="profile-hero-identity">
+            <h1 class="profile-hero-name">@Model.StudentName</h1>
+            <div class="profile-hero-chips">
+                @if (!string.IsNullOrEmpty(Model.StudyLevel))
+                {
+                    <span class="profile-chip">@Model.StudyLevel</span>
+                }
+                @if (!string.IsNullOrEmpty(Model.School))
+                {
+                    <span class="profile-chip">@Model.School</span>
+                }
+            </div>
+        </div>
+        <form method="post" asp-page-handler="Logout" class="ms-auto">
+            <button type="submit" class="btn-logout">Log out</button>
+        </form>
+    </div>
+    <div class="profile-hero-stats">
+        <div class="profile-hero-stat">
+            <span class="profile-hero-stat-value">@Model.ExpPoints</span>
+            <span class="profile-hero-stat-label">XP Points</span>
+        </div>
+        <div class="profile-hero-stat">
+            <span class="profile-hero-stat-value">@Model.MemberSince</span>
+            <span class="profile-hero-stat-label">Member Since</span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+
+    <div class="col-lg-8">
+
+        <!-- Personal Info -->
+        <div class="content-card mb-3">
+            <div class="content-card-title mb-3">Personal information</div>
+
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+            {
+                <div class="profile-alert profile-alert-success">@Model.SuccessMessage</div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="profile-alert profile-alert-error">@Model.ErrorMessage</div>
+            }
+
+            <form method="post" asp-page-handler="UpdateProfile">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="profile-label">Full name</label>
+                        <input asp-for="StudentNameInput" class="form-control" placeholder="Your full name" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="profile-label">Age</label>
+                        <input asp-for="AgeInput" type="number" min="1" class="form-control" />
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="profile-label">Email</label>
+                        <input asp-for="EmailInput" type="email" class="form-control" placeholder="your@email.com" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="profile-label">Phone number</label>
+                        <input asp-for="PhoneNumberInput" class="form-control" placeholder="+60 1X-XXX XXXX" />
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="profile-label">School</label>
+                        <input asp-for="SchoolInput" class="form-control" placeholder="Your school" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="profile-label">Study level</label>
+                        <select asp-for="StudyLevelInput" class="form-select">
+                            <option value="Form 1">Form 1</option>
+                            <option value="Form 2">Form 2</option>
+                            <option value="Form 3">Form 3</option>
+                            <option value="Form 4">Form 4</option>
+                            <option value="Form 5">Form 5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="profile-label">Birth date</label>
+                    <input asp-for="BirthDateInput" type="date" class="form-control" style="max-width: 220px;" />
+                </div>
+                <button type="submit" class="btn-new-quiz">Save changes</button>
+            </form>
+        </div>
+
+        <!-- Change Password -->
+        <div class="content-card">
+            <div class="content-card-title mb-3">Change password</div>
+
+            @if (!string.IsNullOrEmpty(Model.PasswordSuccessMessage))
+            {
+                <div class="profile-alert profile-alert-success">@Model.PasswordSuccessMessage</div>
+            }
+            @if (!string.IsNullOrEmpty(Model.PasswordErrorMessage))
+            {
+                <div class="profile-alert profile-alert-error">@Model.PasswordErrorMessage</div>
+            }
+
+            <form method="post" asp-page-handler="ChangePassword">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="profile-label">Current password</label>
+                        <input asp-for="CurrentPassword" type="password" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="profile-label">New password</label>
+                        <input asp-for="NewPassword" type="password" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="profile-label">Confirm new password</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                    </div>
+                </div>
+                <button type="submit" class="btn-add-topic">Update password</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Preferences -->
+    <div class="col-lg-4">
+        <div class="content-card">
+            <div class="content-card-title mb-3">Preferences</div>
+
+            <div class="pref-toggle-row">
+                <div>
+                    <div class="pref-toggle-title">New quiz alerts</div>
+                    <div class="pref-toggle-sub">Notify me when a new quiz is published</div>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input pref-toggle" type="checkbox" id="prefQuizAlerts" data-pref-key="quizAlerts" checked>
+                </div>
+            </div>
+
+            <div class="pref-toggle-row">
+                <div>
+                    <div class="pref-toggle-title">Discussion replies</div>
+                    <div class="pref-toggle-sub">Notify me when someone replies to my post</div>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input pref-toggle" type="checkbox" id="prefDiscussionReplies" data-pref-key="discussionReplies" checked>
+                </div>
+            </div>
+
+            <div class="pref-toggle-row">
+                <div>
+                    <div class="pref-toggle-title">Weekly progress summary</div>
+                    <div class="pref-toggle-sub">Email me a recap of my weekly progress</div>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input pref-toggle" type="checkbox" id="prefWeeklySummary" data-pref-key="weeklySummary">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.pref-toggle').forEach(function (toggle) {
+            var key = 'mathly.pref.' + toggle.dataset.prefKey;
+            var stored = localStorage.getItem(key);
+            if (stored !== null) toggle.checked = stored === 'true';
+            toggle.addEventListener('change', function () {
+                localStorage.setItem(key, toggle.checked);
+            });
+        });
+    </script>
+}
