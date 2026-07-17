@@ -1,0 +1,91 @@
+@page "/app/badges"
+@model Mathly.Pages.Student.BadgesModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Badges";
+    ViewData["ActivePage"] = "Badges";
+}
+
+<div class="page-header">
+    <h1 class="page-title">🎖️ My Badges</h1>
+    <p class="page-subtitle">Collect them all by leveling up your XP!</p>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-yellow">
+            <div class="stat-icon-badge">🏅</div>
+            <div class="stat-label">Earned</div>
+            <div class="stat-value">@Model.EarnedCount</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-teal">
+            <div class="stat-icon-badge">🎯</div>
+            <div class="stat-label">Total Badges</div>
+            <div class="stat-value">@Model.TotalCount</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-green">
+            <div class="stat-icon-badge">⭐</div>
+            <div class="stat-label">XP Points</div>
+            <div class="stat-value">@Model.ExpPoints</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-salmon">
+            <div class="stat-icon-badge">🚀</div>
+            <div class="stat-label">Next Badge In</div>
+            <div class="stat-value">@(Model.NextUnlockExp > 0 ? $"{Model.NextUnlockExp} XP" : "🎉")</div>
+        </div>
+    </div>
+</div>
+
+<!-- Earned Badges -->
+<div class="content-card mb-3">
+    <div class="content-card-title mb-3">Earned badges</div>
+    @if (Model.EarnedBadges.Any())
+    {
+        <div class="badge-grid">
+            @foreach (var b in Model.EarnedBadges)
+            {
+                <div class="badge-tile badge-tile-earned">
+                    <div class="badge-tile-icon">@b.Icon</div>
+                    <div class="badge-tile-name">@b.DisplayName</div>
+                    <div class="badge-tile-date">Earned @b.EarnedDate?.ToString("d MMM yyyy")</div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">No badges yet — complete quizzes to start collecting! 🌟</div>
+    }
+</div>
+
+<!-- Locked Badges -->
+<div class="content-card">
+    <div class="content-card-title mb-3">Locked badges</div>
+    @if (Model.LockedBadges.Any())
+    {
+        <div class="badge-grid">
+            @foreach (var b in Model.LockedBadges)
+            {
+                <div class="badge-tile badge-tile-locked">
+                    <div class="badge-tile-icon badge-tile-icon-locked">🔒</div>
+                    <div class="badge-tile-name">@b.DisplayName</div>
+                    <div class="badge-tile-threshold">Unlocks at @b.RequiredExp XP</div>
+                    <div class="progress-bar-track mt-2">
+                        <div class="progress-bar-fill" style="width: @(b.ProgressPercent)%"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">You've unlocked every badge — legendary! 🏆</div>
+    }
+</div>
