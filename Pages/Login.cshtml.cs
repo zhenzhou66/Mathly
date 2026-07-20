@@ -23,6 +23,9 @@ namespace Mathly.Pages
         [BindProperty]
         public string Password { get; set; }
 
+        [BindProperty]
+        public bool RememberMe { get; set; }
+
         public string ErrorMessage { get; set; }
 
         public void OnGet() { }
@@ -59,7 +62,7 @@ namespace Mathly.Pages
                 principal,
                 new AuthenticationProperties
                 {
-                    IsPersistent = true,                              // survives browser close
+                    IsPersistent = RememberMe,                        // "Remember me" checkbox controls whether the cookie survives browser close
                     ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
                 });
 
