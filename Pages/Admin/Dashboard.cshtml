@@ -1,0 +1,92 @@
+@page "/Admin_Dashboard"
+@model Mathly.Pages.Admin.DashboardModel
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Dashboard";
+    ViewData["ActivePage"] = "Dashboard";
+    ViewData["AdminName"] = Model.AdminName;
+}
+
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <span class="admin-view-badge">ADMIN VIEW</span>
+        <h1 class="dashboard-greeting">Welcome back, @Model.AdminName</h1>
+    </div>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-yellow">
+            <div class="stat-label">Total Students</div>
+            <div class="stat-value">@Model.TotalStudents</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-teal">
+            <div class="stat-label">Total Teachers</div>
+            <div class="stat-value">@Model.TotalTeachers</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-green">
+            <div class="stat-label">Total Topics</div>
+            <div class="stat-value">@Model.TotalTopics</div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="stat-card stat-card-salmon">
+            <div class="stat-label">TotalXPAwarded</div>
+            <div class="stat-value">@Model.TotalXPAwarded</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Row -->
+<div class="row g-3">
+
+    <!-- Topic Performance Table -->
+    <div class="col-lg-8">
+        <div class="content-card">
+            <div class="content-card-title mb-3">Topic Performance List</div>
+
+            @if (Model.TopicPerformanceList.Any())
+            {
+                @foreach (var p in Model.TopicPerformanceList)
+                {
+                    <div class="topic-row">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="topic-name">@p.TopicName</span>
+                            <span class="performance-percentage">@p.PerformancePercentage.ToString("0")%</span>
+                            <span class="total-students">@p.TotalStudents</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="empty-state">No topics yet.</div>
+            }
+        </div>
+    </div>
+
+     <!-- Right Panels -->
+    <div class="col-lg-4">
+
+        <!-- Quick Actions -->
+        <div class="quick-action-card mb-3">
+            <div class="quick-action-title">Quick Actions</div>
+                <a asp-page="/Admin/AddTeacher" class="btn btn-quick-action">
+                    <span>Add New Teacher</span>
+                </a>
+                <a asp-page="/Admin/CreateTopic" class="btn btn-quick-action">
+                    <span>Create Topic</span>
+                </a>
+                <a asp-page="/Admin/ManageBadges" class="btn btn-quick-action">
+                    <span>Manage Badges</span>
+                </a>
+                <a asp-page="/Admin/Users" class="btn btn-quick-action">
+                    <span>View All Users</span>
+                </a>                                                
+        </div>

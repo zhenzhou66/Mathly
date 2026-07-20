@@ -9,6 +9,7 @@ namespace Mathly.Models
         [Key]
         public string TopicID { get; set; }
         public string TopicName { get; set; }
+        [Column("userID")]
         public string TeacherID { get; set; }
 
         [ForeignKey("TeacherID")]
