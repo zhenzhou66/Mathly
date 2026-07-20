@@ -1,28 +1,83 @@
-﻿@page "/Login"
+@page "/Login"
 @model Mathly.Pages.LoginModel
 @{
     Layout = "_Layout";
+    ViewData["Title"] = "Login";
 }
 
+<link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
 
-<h2>Login</h2>
+<div class="login-page">
+    <div class="login-frame">
+        <div class="login-card">
 
-<form method="post">
-    <div>
-        <label>User ID</label>
-        <input type="text" asp-for="UserID" />
-        <span asp-validation-for="UserID"></span>
+            <!-- Left panel -->
+            <div class="login-left">
+                <div class="login-brand">
+                    <img src="~/Mathly-Logo.jpeg" alt="Mathly Logo" class="login-logo" />
+                    <span class="login-brand-name">Mathly</span>
+                </div>
+
+                <h1 class="login-welcome">Welcome Back!</h1>
+                <p class="login-tagline">Master new skills with a community that cares</p>
+                <p class="login-desc">
+                    Join thousands of learners building real-world expertise through
+                    structured courses, peer collaboration, and hands-on projects.
+                </p>
+            </div>
+
+            <div class="login-divider"></div>
+
+            <!-- Right panel -->
+            <div class="login-right">
+                <h2 class="login-title">Login</h2>
+
+                <form method="post" class="login-form">
+                    <div class="form-group">
+                        <label asp-for="UserID" class="form-label">User ID</label>
+                        <input asp-for="UserID" class="form-underline" placeholder="e.g TP070000" autocomplete="username" />
+                        <span asp-validation-for="UserID" class="field-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-underline" placeholder="••••••••••" autocomplete="current-password" />
+                        <span asp-validation-for="Password" class="field-error"></span>
+                    </div>
+
+                    <div class="login-options-row">
+                        
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <p class="login-error">@Model.ErrorMessage</p>
+                    }
+
+                    <button type="submit" class="btn-dark">Login</button>
+                    
+
+                    <p class="signup-text">No Account? <a asp-page="/Register" class="signup-link">Sign UP</a></p>
+                </form>
+
+
+
+            </div>
+
+        </div>
     </div>
-    <div>
-        <label>Password</label>
-        <input type="password" asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
+</div>
 
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <p style="color:red;">@Model.ErrorMessage</p>
-    }
-
-    <button type="submit">Login</button>
-</form>
+@section Scripts {
+    <script>
+        // Cosmetic role toggle — the actual role used for redirect after login
+        // still comes from the account's role in the database.
+        document.querySelectorAll('.role-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.role-btn').forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+            });
+        });
+    </script>
+}

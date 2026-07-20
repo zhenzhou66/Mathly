@@ -38,19 +38,53 @@
                     Dashboard
                 </a>
 
-                <span class="sidebar-link sidebar-link-disabled">
+                <a href="/app/topics"
+                   class="sidebar-link @(active == "Topics" ? "active" : "")">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                     Topics
-                </span>
+                </a>
 
-                <span class="sidebar-link sidebar-link-disabled">
+                <a href="/app/quizzes"
+                   class="sidebar-link @(active == "Quizzes" ? "active" : "")">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    Quizzes
+                </a>
+
+                <a href="/app/materials"
+                   class="sidebar-link @(active == "Materials" ? "active" : "")">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Materials
+                </a>
+
+                <a href="/app/discussion"
+                   class="sidebar-link @(active == "Discussion" ? "active" : "")">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                     Discussion
-                </span>
+                </a>
+
+                <a href="/app/badges"
+                   class="sidebar-link @(active == "Badges" ? "active" : "")">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.968 7.968 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.669 0-3.218.51-4.5 1.385A7.962 7.962 0 009 4.804z" />
+                    </svg>
+                    Badges
+                </a>
+
+                <a href="/app/notifications"
+                   class="sidebar-link @(active == "Notifications" ? "active" : "")">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    Notifications
+                </a>
 
                 <a asp-page="/Student/Profile"
                    class="sidebar-link @(active == "Profile" ? "active" : "")">
@@ -62,8 +96,11 @@
             </nav>
 
             <div class="sidebar-footer">
-                <div class="sidebar-avatar">S</div>
-                <span class="sidebar-teacher-name">@(ViewData["StudentName"] ?? "Student")</span>
+                <div class="sidebar-footer-user">
+                    <div class="sidebar-avatar">S</div>
+                    <span class="sidebar-teacher-name">@(ViewData["StudentName"] ?? "Student")</span>
+                </div>
+                <a asp-page="/Logout" class="sidebar-link">Log out</a>
             </div>
         </aside>
 

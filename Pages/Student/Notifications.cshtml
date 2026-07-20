@@ -1,0 +1,48 @@
+@page "/app/notifications"
+@model Mathly.Pages.Student.NotificationsModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Notifications";
+    ViewData["ActivePage"] = "Notifications";
+}
+
+<div class="page-header d-flex justify-content-between align-items-start flex-wrap gap-2">
+    <div>
+        <h1 class="page-title">🔔 Notifications</h1>
+        <p class="page-subtitle">
+            @(Model.UnreadCount > 0 ? $"You've got {Model.UnreadCount} unread update{(Model.UnreadCount == 1 ? "" : "s")}" : "You're all caught up! 🎉")
+        </p>
+    </div>
+    @if (Model.UnreadCount > 0)
+    {
+        <form method="post" asp-page-handler="MarkAllRead">
+            <button type="submit" class="btn-add-topic">✅ Mark all as read</button>
+        </form>
+    }
+</div>
+
+<div class="content-card">
+    @if (Model.Notifications.Any())
+    {
+        @foreach (var n in Model.Notifications)
+        {
+            <div class="notif-row @(!n.IsRead ? "notif-row-unread" : "")">
+                <span class="notif-icon">@Mathly.Pages.Student.NotificationsModel.IconFor(n.Type)</span>
+                <div class="notif-body">
+                    <span class="notif-message">@n.Message</span>
+                </div>
+                @if (!n.IsRead)
+                {
+                    <form method="post" asp-page-handler="MarkRead">
+                        <input type="hidden" name="id" value="@n.NotificationID" />
+                        <button type="submit" class="btn-edit">Mark read</button>
+                    </form>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="empty-state">No notifications yet — check back after your next quiz or badge! 🔔</div>
+    }
+</div>

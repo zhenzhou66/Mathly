@@ -1,0 +1,279 @@
+/* ── Login page (rendered inside the site's normal _Layout, with nav/footer) ── */
+
+.login-page {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  box-sizing: border-box;
+  background-color: hsl(0, 0%, 95%);
+  font-family: "Segoe UI", sans-serif;
+  color: #1a1a1a;
+}
+
+/* Gradient "picture frame" border */
+.login-frame {
+  max-width: 900px;
+  width: 100%;
+  border-radius: 28px;
+  padding: 7px;
+  background: linear-gradient(
+    135deg,
+    #7b2ff7 0%,
+    #c2308e 35%,
+    #f2709c 65%,
+    #f2994a 100%
+  );
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+
+.login-card {
+  background-color: #e9e6e1;
+  border-radius: 22px;
+  display: flex;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+.login-left,
+.login-right {
+  flex: 1;
+  padding: 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-divider {
+  width: 1px;
+  background-color: #cfc9c0;
+  margin: 2.5rem 0;
+}
+
+/* Left panel */
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.login-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.login-brand-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.login-welcome {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 1.25rem;
+}
+
+.login-tagline {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.login-desc {
+  font-size: 0.8rem;
+  color: #6b6b66;
+  line-height: 1.5;
+  max-width: 300px;
+  margin: 0;
+}
+
+/* Right panel */
+.login-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 1.75rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.form-underline {
+  border: none;
+  border-bottom: 1px solid #b8b2a8;
+  background: transparent;
+  padding: 0.35rem 0.1rem;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  outline: none;
+}
+
+.form-underline::placeholder {
+  color: #a8a29a;
+  font-size: 0.85rem;
+}
+
+.form-underline:focus {
+  border-bottom-color: #1a1a1a;
+}
+
+.field-error {
+  color: #c0392b;
+  font-size: 0.75rem;
+}
+
+.login-error {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.login-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.remember-me input {
+  accent-color: #1a1a1a;
+}
+
+.forgot-link {
+  font-weight: 700;
+  text-decoration: underline;
+  color: #1a1a1a;
+}
+
+.btn-dark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-dark:hover {
+  background-color: #333;
+}
+
+.btn-google {
+  background-color: #1a1a1a;
+}
+
+.google-icon {
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.signup-text {
+  text-align: center;
+  font-size: 0.8rem;
+  margin: 0.25rem 0 0;
+}
+
+.signup-link {
+  font-weight: 700;
+  text-decoration: underline;
+  color: #1a1a1a;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #cfc9c0;
+  margin: 1.75rem 0 1.25rem;
+}
+
+.role-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.role-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.role-buttons {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.role-btn {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #d9d4cb;
+  color: #1a1a1a;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.role-btn.active,
+.role-btn:hover {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .login-card {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .login-divider {
+    width: auto;
+    height: 1px;
+    margin: 0 2.5rem;
+  }
+
+  .login-left,
+  .login-right {
+    padding: 2rem 2rem;
+  }
+}

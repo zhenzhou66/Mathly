@@ -5,38 +5,56 @@
     ViewData["Title"] = "Dashboard";
     ViewData["ActivePage"] = "Dashboard";
     ViewData["StudentName"] = Model.StudentName;
+
+    var hour = DateTime.Now.Hour;
+    var greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    var tagline = hour < 12 ? "Let's crush some math today! 🚀"
+                : hour < 18 ? "Keep the momentum going! 💪"
+                : "Finish strong tonight! 🌙";
 }
 
-<!-- Header -->
-<div class="d-flex justify-content-between align-items-start mb-4">
-    <div>
-        <span class="student-view-badge">STUDENT VIEW</span>
-        <h1 class="dashboard-greeting">Good morning, @Model.StudentName</h1>
+<!-- Hero Banner -->
+<div class="profile-hero mb-4">
+    <div class="profile-hero-top">
+        <div class="profile-avatar">@Model.StudentName.Substring(0, 1).ToUpper()</div>
+        <div class="profile-hero-identity">
+            <h1 class="profile-hero-name">@greeting, @Model.StudentName! 👋</h1>
+            <div class="profile-hero-chips">
+                <span class="profile-chip">🔥 @Model.DayStreak day streak</span>
+                <span class="profile-chip">⭐ @Model.ExpPoints XP</span>
+                <span class="profile-chip">🏆 Rank #@Model.ClassRank</span>
+            </div>
+        </div>
     </div>
+    <p class="profile-hero-tagline">@tagline</p>
 </div>
 
 <!-- Stat Cards -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-xl-3">
         <div class="stat-card stat-card-yellow">
+            <div class="stat-icon-badge">⭐</div>
             <div class="stat-label">XP Points</div>
             <div class="stat-value">@Model.ExpPoints</div>
         </div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="stat-card stat-card-teal">
+            <div class="stat-icon-badge">🔥</div>
             <div class="stat-label">Day Streak</div>
             <div class="stat-value">@Model.DayStreak</div>
         </div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="stat-card stat-card-green">
+            <div class="stat-icon-badge">📚</div>
             <div class="stat-label">Topics In Progress</div>
             <div class="stat-value">@Model.TopicsInProgress</div>
         </div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="stat-card stat-card-salmon">
+            <div class="stat-icon-badge">🏆</div>
             <div class="stat-label">Class Rank</div>
             <div class="stat-value">#@Model.ClassRank</div>
         </div>
@@ -49,7 +67,10 @@
     <!-- Progress List -->
     <div class="col-lg-8">
         <div class="content-card">
-            <div class="content-card-title mb-3">My progress</div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="content-card-title">📈 My Learning Journey</div>
+                <span class="progress-count-pill">@Model.TopicsInProgress in progress</span>
+            </div>
 
             @if (Model.ProgressList.Any())
             {
@@ -68,7 +89,7 @@
             }
             else
             {
-                <div class="empty-state">No topics started yet.</div>
+                <div class="empty-state">You haven't started any topics yet — let's fix that! 🚀</div>
             }
         </div>
     </div>
@@ -78,7 +99,8 @@
 
         <!-- Leaderboard -->
         <div class="leaderboard-card mb-3">
-            <div class="leaderboard-title">Leaderboard</div>
+            <div class="leaderboard-title">🏆 Leaderboard</div>
+            <p class="leaderboard-subtitle">Who's topping the charts this week?</p>
             @if (Model.Leaderboard.Any())
             {
                 var rank = 0;
@@ -100,7 +122,10 @@
 
         <!-- Badges -->
         <div class="content-card">
-            <div class="content-card-title mb-3">My badges</div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="content-card-title">🎖️ My Badges</div>
+                <a href="/app/badges" class="btn-add-topic">View all →</a>
+            </div>
             @if (Model.EarnedBadges.Any())
             {
                 @foreach (var b in Model.EarnedBadges)
@@ -116,7 +141,7 @@
             }
             else
             {
-                <div class="empty-state">No badges earned yet.</div>
+                <div class="empty-state">No badges yet — complete quizzes to start collecting! 🌟</div>
             }
         </div>
 

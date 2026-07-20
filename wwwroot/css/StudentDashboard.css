@@ -24,16 +24,6 @@
     width: 28px;
 }
 
-.student-sidebar .sidebar-link-disabled {
-    color: #bbb;
-    cursor: default;
-}
-
-.student-sidebar .sidebar-link-disabled:hover {
-    background-color: transparent;
-    color: #bbb;
-}
-
 /* ── Main Content ── */
 .student-main {
     margin-left: 220px;
@@ -41,6 +31,28 @@
     background-color: #faf8f5;
     min-height: 100vh;
     padding: 2rem 2.5rem;
+}
+
+/* ── Stat Card Icons (bigger icon + label, high-contrast badge behind emoji) ── */
+.student-main .stat-icon-badge {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.student-main .stat-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.student-main .stat-value {
+    font-size: 2.6rem;
 }
 
 /* ── Dashboard Header ── */
@@ -201,6 +213,29 @@
     gap: 1.25rem;
 }
 
+.profile-hero-tagline {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(26, 26, 26, 0.75);
+}
+
+.progress-count-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #5BAD8F;
+    background-color: rgba(91, 173, 143, 0.12);
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.leaderboard-subtitle {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin: -0.5rem 0 0.75rem;
+}
+
 .profile-avatar {
     width: 68px;
     height: 68px;
@@ -351,4 +386,96 @@
     width: 2.4rem;
     height: 1.3rem;
     cursor: pointer;
+}
+
+/* ── Badges Grid ── */
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.badge-tile {
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    transition: transform 0.15s;
+}
+
+.badge-tile:hover {
+    transform: translateY(-3px);
+}
+
+.badge-tile-earned {
+    background: linear-gradient(160deg, #fff8e6, #fff);
+    border: 1px solid #f5dfa0;
+    box-shadow: 0 4px 12px rgba(245, 197, 24, 0.18);
+}
+
+.badge-tile-locked {
+    background-color: #f5f0eb;
+    border: 1px dashed #d8cfc3;
+}
+
+.badge-tile-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.badge-tile-icon-locked {
+    opacity: 0.5;
+}
+
+.badge-tile-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.badge-tile-date {
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 0.2rem;
+}
+
+.badge-tile-threshold {
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 0.2rem;
+}
+
+/* ── Notifications ── */
+.notif-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 0.75rem;
+    border-bottom: 1px solid #f5f0eb;
+    border-radius: 8px;
+}
+
+.notif-row:last-child {
+    border-bottom: none;
+}
+
+.notif-row-unread {
+    background-color: rgba(76, 191, 191, 0.08);
+}
+
+.notif-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.notif-body {
+    flex: 1;
+}
+
+.notif-message {
+    font-size: 0.88rem;
+    color: #1a1a1a;
+}
+
+.notif-row-unread .notif-message {
+    font-weight: 700;
 }
