@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Mathly.Data;
@@ -5,10 +7,11 @@ using Mathly.Models;
 
 namespace Mathly.Pages.Teacher
 {
+    [Authorize(Roles = "teacher")]
     public class ProfileModel : PageModel
     {
         private readonly MathlyDbContext _db;
-        private const string TeacherID = "teacher001";
+        private string TeacherID => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         public ProfileModel(MathlyDbContext db) => _db = db;
 

@@ -87,8 +87,11 @@
             </nav>
 
             <div class="sidebar-footer">
-                <div class="sidebar-avatar">T</div>
-                <span class="sidebar-teacher-name">@(ViewData["TeacherName"] ?? "Teacher")</span>
+                <div class="sidebar-footer-user">
+                    <div class="sidebar-avatar">T</div>
+                    <span class="sidebar-teacher-name">@(ViewData["TeacherName"] ?? "Teacher")</span>
+                </div>
+                <a asp-page="/Logout" class="sidebar-link">Log out</a>
             </div>
         </aside>
 

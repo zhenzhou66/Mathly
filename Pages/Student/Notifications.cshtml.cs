@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -6,10 +8,11 @@ using Mathly.Models;
 
 namespace Mathly.Pages.Student
 {
+    [Authorize(Roles = "student")]
     public class NotificationsModel : PageModel
     {
         private readonly MathlyDbContext _db;
-        private const string StudentID = "student001"; // TODO: replace with session (#4)
+        private string StudentID => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         public NotificationsModel(MathlyDbContext db) => _db = db;
 

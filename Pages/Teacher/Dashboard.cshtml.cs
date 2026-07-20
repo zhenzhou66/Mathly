@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Mathly.Data;
@@ -5,10 +7,11 @@ using Mathly.Models;
 
 namespace Mathly.Pages.Teacher
 {
+    [Authorize(Roles = "teacher")]
     public class DashboardModel : PageModel
     {
         private readonly MathlyDbContext _db;
-        private const string TeacherID = "teacher001"; // TODO: replace with session
+        private string TeacherID => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         public DashboardModel(MathlyDbContext db) => _db = db;
 
