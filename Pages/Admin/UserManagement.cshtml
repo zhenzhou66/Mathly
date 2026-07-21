@@ -1,0 +1,182 @@
+@page "/Admin/Users"
+@model Mathly.Pages.Admin.UserManagementModel
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Manage Users";
+    ViewData["ActivePage"] = "ManageUsers";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Manage Users</h1>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="content-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="content-card-title">All Users</div>
+        <input type="text" id="userSearch" class="form-control" style="max-width:280px;" placeholder="Search by name or email..." />
+    </div>
+
+    <table class="table table-borderless topics-table mb-0" id="usersTable">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Level</th>
+                <th>Date Joined</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Users.Any())
+            {
+                @foreach (var u in Model.Users)
+                {
+                    <tr class="user-row" data-search="@($"{u.Name} {u.Email}".ToLower())">
+                        <td>
+                            <div class="fw-semibold">@u.Name</div>
+                            <div style="font-size:0.8rem;color:#888;">@u.Email</div>
+                        </td>
+                        <td><span class="text-capitalize">@u.Role</span></td>
+                        <td>@u.Level</td>
+                        <td>@u.JoinedDate.ToString("d MMM yyyy")</td>
+                        <td>
+                            @if (u.Status == "active")
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Suspended</span>
+                            }
+                        </td>
+                        <td class="d-flex gap-1">
+                            <button type="button" class="btn-edit"
+                                    onclick="openEditModal(
+                                        '@u.UserID','@u.Name','@u.Email','@u.PhoneNumber','@u.Role',
+                                        '@u.StudyLevel','@u.School')">
+                                edit
+                            </button>
+
+                            @if (u.Status == "active")
+                            {
+                                <form method="post" asp-page-handler="Suspend" style="display:inline"
+                                      onsubmit="return confirm('Suspend @u.UserID?');">
+                                    <input type="hidden" name="userId" value="@u.UserID" />
+                                    <button type="submit" class="btn-edit">suspend</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="Restore" style="display:inline">
+                                    <input type="hidden" name="userId" value="@u.UserID" />
+                                    <button type="submit" class="btn-edit">restore</button>
+                                </form>
+                                <form method="post" asp-page-handler="DeleteUser" style="display:inline"
+                                      onsubmit="return confirm('Permanently delete @u.UserID? This cannot be undone.');">
+                                    <input type="hidden" name="userId" value="@u.UserID" />
+                                    <button type="submit" class="btn-edit">delete</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="empty-state">No users found.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="EditUser">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="userId" id="editUserId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" id="editName" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" id="editEmail" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" name="phoneNumber" id="editPhone" class="form-control" />
+                    </div>
+
+                    <div id="studentFields">
+                        <div class="mb-3">
+                            <label class="form-label">Study Level</label>
+                            <select name="level" id="editLevel" class="form-select">
+                                <option value="Form 1">Form 1</option>
+                                <option value="Form 2">Form 2</option>
+                                <option value="Form 3">Form 3</option>
+                                <option value="Form 4">Form 4</option>
+                                <option value="Form 5">Form 5</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">School</label>
+                            <input type="text" name="school" id="editSchool" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-edit" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn-new-quiz">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('userSearch').addEventListener('input', function () {
+            var term = this.value.toLowerCase();
+            document.querySelectorAll('.user-row').forEach(function (row) {
+                row.style.display = row.dataset.search.includes(term) ? '' : 'none';
+            });
+        });
+
+        function openEditModal(id, name, email, phone, role, level, school, age) {
+            document.getElementById('editUserId').value = id;
+            document.getElementById('editName').value = name;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editPhone').value = phone;
+
+            var studentFields = document.getElementById('studentFields');
+            if (role === 'student') {
+                studentFields.style.display = 'block';
+                document.getElementById('editAge').value = age;
+                document.getElementById('editLevel').value = level;
+                document.getElementById('editSchool').value = school;
+            } else {
+                studentFields.style.display = 'none';
+            }
+
+            new bootstrap.Modal(document.getElementById('editUserModal')).show();
+        }
+    </script>
+}
