@@ -1,0 +1,56 @@
+@page "/app/discussion"
+@model Mathly.Pages.Student.DiscussionModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Discussion";
+    ViewData["ActivePage"] = "Discussion";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentDiscussion.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <h1 class="page-title">💬 Discussion</h1>
+    <p class="page-subtitle">Ask questions and see what others are discussing</p>
+</div>
+
+<div class="content-card mb-3">
+    <div class="content-card-title mb-3">Start a new discussion</div>
+    <form method="post" class="discussion-form">
+        <div class="mb-2">
+            <label class="profile-label">Title</label>
+            <input asp-for="NewTitle" class="form-control" placeholder="Title" />
+        </div>
+        <div class="mb-2">
+            <label class="profile-label">Question</label>
+            <textarea asp-for="NewQuestion" class="form-control" rows="3" placeholder="What's your question?"></textarea>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="profile-alert profile-alert-error">@Model.ErrorMessage</div>
+        }
+        <button type="submit" class="btn-add-topic">Post question</button>
+    </form>
+</div>
+
+<div class="content-card">
+    <div class="content-card-title mb-3">All discussions</div>
+    @if (Model.Threads.Any())
+    {
+        @foreach (var t in Model.Threads)
+        {
+            <div class="discussion-thread-row">
+                <div class="discussion-thread-title">@t.QuestionTitle</div>
+                <div class="discussion-thread-text">@t.QuestionText</div>
+                <div class="discussion-thread-meta">
+                    by @t.AuthorName &middot; @t.CommentCount comment@(t.CommentCount == 1 ? "" : "s")
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="empty-state">No discussions yet — be the first to ask a question!</div>
+    }
+</div>

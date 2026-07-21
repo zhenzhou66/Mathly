@@ -1,0 +1,36 @@
+/* ── Notifications page only ── */
+
+.notif-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 0.75rem;
+    border-bottom: 1px solid #f5f0eb;
+    border-radius: 8px;
+}
+
+.notif-row:last-child {
+    border-bottom: none;
+}
+
+.notif-row-unread {
+    background-color: rgba(76, 191, 191, 0.08);
+}
+
+.notif-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.notif-body {
+    flex: 1;
+}
+
+.notif-message {
+    font-size: 0.88rem;
+    color: #1a1a1a;
+}
+
+.notif-row-unread .notif-message {
+    font-weight: 700;
+}

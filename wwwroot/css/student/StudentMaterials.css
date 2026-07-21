@@ -1,0 +1,22 @@
+/* ── Materials page only ── */
+
+.material-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.material-row:last-child {
+    border-bottom: none;
+}
+
+.material-icon {
+    font-size: 1.1rem;
+}
+
+.material-name {
+    font-size: 0.88rem;
+    color: #1a1a1a;
+}

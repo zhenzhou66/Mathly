@@ -1,0 +1,69 @@
+@page "/app/topics"
+@model Mathly.Pages.Student.TopicsModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Topics";
+    ViewData["ActivePage"] = "Topics";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentTopics.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <h1 class="page-title">📚 Topics</h1>
+    <p class="page-subtitle">Track your progress and discover new topics to learn</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="profile-alert profile-alert-success">@Model.StatusMessage</div>
+}
+
+<div class="content-card mb-3">
+    <div class="content-card-title mb-3">My topics</div>
+    @if (Model.MyTopics.Any())
+    {
+        <div class="topic-tile-grid">
+            @foreach (var t in Model.MyTopics)
+            {
+                <div class="topic-tile my-topic-card">
+                    <div class="topic-tile-name">@t.TopicName</div>
+                    <div class="topic-tile-teacher">@(t.TeacherName ?? "Unassigned")</div>
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" style="width: @(t.ProgressPercentage)%"></div>
+                    </div>
+                    <div class="my-topic-card-percent">@t.ProgressPercentage.ToString("0")% complete</div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">You haven't joined any topics yet — pick one below to get started!</div>
+    }
+</div>
+
+<div class="content-card">
+    <div class="content-card-title mb-3">Available topics</div>
+    @if (Model.AvailableTopics.Any())
+    {
+        <div class="topic-tile-grid">
+            @foreach (var t in Model.AvailableTopics)
+            {
+                <div class="topic-tile">
+                    <div class="topic-tile-name">@t.TopicName</div>
+                    <div class="topic-tile-teacher">@(t.TeacherName ?? "Unassigned")</div>
+                    <form method="post" asp-page-handler="Join">
+                        <input type="hidden" name="topicId" value="@t.TopicID" />
+                        <button type="submit" class="btn-add-topic">+ Join topic</button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">You've joined every available topic — nice work! 🎉</div>
+    }
+</div>

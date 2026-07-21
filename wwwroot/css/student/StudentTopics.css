@@ -1,0 +1,36 @@
+/* ── Topics page only ── */
+
+.topic-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.topic-tile {
+    border: 1px solid #f0ebe4;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+    height: 100%;
+}
+
+.topic-tile-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.topic-tile-teacher {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.my-topic-card-percent {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #5BAD8F;
+}

@@ -1,0 +1,146 @@
+/* ── Dashboard page only ── */
+
+.student-view-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background-color: #4CBFBF;
+    color: #1a1a1a;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.3rem;
+}
+
+/* ── Progress List ── */
+.progress-row {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.progress-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.progress-topic-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.progress-percent {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.progress-count-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #5BAD8F;
+    background-color: rgba(91, 173, 143, 0.12);
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* ── Leaderboard Panel ── */
+.leaderboard-card {
+    background-color: #4CBFBF;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.leaderboard-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+
+.leaderboard-subtitle {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin: -0.5rem 0 0.75rem;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 0.83rem;
+    color: #fff;
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.leaderboard-item-me {
+    font-weight: 700;
+}
+
+.leaderboard-rank {
+    width: 1.8rem;
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.leaderboard-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.leaderboard-xp {
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+/* ── Badges widget (dashboard preview list, distinct from the Badges page grid) ── */
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.badge-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.badge-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f5f0eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.badge-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.badge-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.badge-date {
+    font-size: 0.75rem;
+    color: #888;
+}

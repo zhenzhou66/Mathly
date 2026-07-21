@@ -1,0 +1,158 @@
+/* ── Shared across every Student page (loaded once via _LayoutStudent.cshtml) ── */
+
+/* ── Student Layout ── */
+.student-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── Sidebar (shares visual language with .teacher-sidebar) ── */
+.student-sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background-color: #f5f0eb;
+    border-right: 1px solid #e0d9d0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.student-sidebar .nav-logo {
+    height: 28px;
+    width: 28px;
+}
+
+/* ── Main Content ── */
+.student-main {
+    margin-left: 220px;
+    flex: 1;
+    background-color: #faf8f5;
+    min-height: 100vh;
+    padding: 2rem 2.5rem;
+}
+
+/* ── Stat Card Icons (bigger icon + label, high-contrast badge behind emoji) ── */
+.student-main .stat-icon-badge {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.student-main .stat-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.student-main .stat-value {
+    font-size: 2.6rem;
+}
+
+/* ── Hero Banner (reused by Dashboard + Profile) ── */
+.profile-hero {
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    background: linear-gradient(135deg, #F5C518 0%, #4CBFBF 55%, #5BAD8F 100%);
+    box-shadow: 0 8px 24px rgba(76, 191, 191, 0.25);
+}
+
+.profile-hero-top {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.profile-hero-tagline {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(26, 26, 26, 0.75);
+}
+
+.profile-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.35);
+}
+
+.profile-hero-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.profile-hero-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.profile-hero-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.profile-chip {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: rgba(255, 255, 255, 0.55);
+    color: #1a1a1a;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+}
+
+/* ── Alert banner (reused by Profile, Topics, Discussion, etc.) ── */
+.profile-alert {
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.profile-alert-success {
+    background-color: #e3f5ec;
+    color: #1e6b45;
+}
+
+.profile-alert-error {
+    background-color: #fbe6e2;
+    color: #a63a24;
+}
+
+/* ── Progress bar primitive (reused by Dashboard + Topics) ── */
+.progress-bar-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 20px;
+    background-color: #f0ebe4;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    background-color: #5BAD8F;
+}

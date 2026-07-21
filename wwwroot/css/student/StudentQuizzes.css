@@ -1,0 +1,54 @@
+/* ── Quizzes page only ── */
+
+.quiz-topic-group {
+    margin-bottom: 1.25rem;
+}
+
+.quiz-topic-group:last-child {
+    margin-bottom: 0;
+}
+
+.quiz-topic-group-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #888;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.quiz-row:last-child {
+    border-bottom: none;
+}
+
+.quiz-row-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.quiz-status-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.quiz-status-done {
+    background-color: rgba(91, 173, 143, 0.15);
+    color: #3f7f65;
+}
+
+.quiz-status-pending {
+    background-color: #f0ebe4;
+    color: #888;
+}
