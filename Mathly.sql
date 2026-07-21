@@ -1,3 +1,4 @@
+use mathly;
 -- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: test
@@ -530,3 +531,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-05-18 23:31:33
+ALTER TABLE logincredentials
+ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'active';
