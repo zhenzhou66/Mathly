@@ -1,0 +1,129 @@
+@page "/app/progress"
+@model Mathly.Pages.Student.ProgressModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Learning Progress";
+    ViewData["ActivePage"] = "Progress";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentProgress.css" asp-append-version="true" />
+}
+
+<!-- Profile Hero -->
+<div class="progress-hero">
+    <h1 class="progress-hero-title">📈 Learning Journey & Mastery</h1>
+    <p class="progress-hero-sub">Track your weekly XP progression, topic mastery scores, and quiz history.</p>
+
+    <div class="d-flex flex-wrap gap-3">
+        <span class="badge bg-light text-dark fw-bold px-3 py-2 fs-6">🔥 @Model.DayStreak Day Streak</span>
+        <span class="badge bg-warning text-dark fw-bold px-3 py-2 fs-6">⭐ @Model.ExpPoints XP Points</span>
+        <span class="badge bg-info text-dark fw-bold px-3 py-2 fs-6">🏆 Class Rank #@Model.ClassRank</span>
+    </div>
+</div>
+
+<!-- Stat Cards Row -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="progress-stat-card">
+            <div class="progress-stat-val text-warning">⭐ @Model.ExpPoints</div>
+            <div class="progress-stat-lbl">Total XP Earned</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="progress-stat-card">
+            <div class="progress-stat-val text-success">📝 @Model.QuizzesCompleted</div>
+            <div class="progress-stat-lbl">Quizzes Taken</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="progress-stat-card">
+            <div class="progress-stat-val text-primary">🔥 @Model.DayStreak</div>
+            <div class="progress-stat-lbl">Daily Streak</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="progress-stat-card">
+            <div class="progress-stat-val text-danger">🏆 #@Model.ClassRank</div>
+            <div class="progress-stat-lbl">Leaderboard Rank</div>
+        </div>
+    </div>
+</div>
+
+<!-- Weekly XP Chart Card -->
+<div class="chart-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-dark mb-0">⚡ Weekly XP Progression</h4>
+        <span class="badge bg-success bg-opacity-10 text-success fw-bold px-3 py-1">THIS WEEK</span>
+    </div>
+
+    <div class="chart-bars-container">
+        @foreach (var day in Model.WeeklyChartData)
+        {
+            <div class="chart-bar-col">
+                <div class="chart-bar-val">+@day.XpEarned</div>
+                <div class="chart-bar-fill" style="height: @(day.HeightPercent)%;"></div>
+                <div class="chart-day-label">@day.DayName</div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Topic Mastery & History Grid -->
+<div class="row g-4">
+    <!-- Topic Mastery Card -->
+    <div class="col-lg-6">
+        <div class="progress-stat-card h-100">
+            <h4 class="fw-bold text-dark mb-3">🎯 Topic Mastery</h4>
+
+            @if (Model.TopicMasteryList.Any())
+            {
+                foreach (var item in Model.TopicMasteryList)
+                {
+                    <div class="mastery-row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="mastery-topic-title">@item.TopicName</span>
+                            <span class="mastery-percent">@item.MasteryPercentage.ToString("0")%</span>
+                        </div>
+                        <div class="mastery-track">
+                            <div class="mastery-fill" style="width: @(item.MasteryPercentage)%"></div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center text-muted py-4">No topic mastery data available yet.</div>
+            }
+        </div>
+    </div>
+
+    <!-- Quiz Attempts Log -->
+    <div class="col-lg-6">
+        <div class="progress-stat-card h-100">
+            <h4 class="fw-bold text-dark mb-3">📜 Quiz Attempt History</h4>
+
+            @if (Model.QuizHistoryList.Any())
+            {
+                foreach (var q in Model.QuizHistoryList)
+                {
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <div class="fw-bold text-dark">@q.QuizTitle</div>
+                            <div class="text-muted small">@q.CorrectCount / @q.TotalCount Correct</div>
+                        </div>
+                        <div>
+                            <span class="badge bg-success bg-opacity-10 text-success fw-bold fs-6">
+                                @q.Score.ToString("0")%
+                            </span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center text-muted py-4">No quizzes completed yet. Complete a daily quiz to see your history!</div>
+            }
+        </div>
+    </div>
+</div>
