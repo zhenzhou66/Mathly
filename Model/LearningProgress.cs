@@ -8,10 +8,12 @@ namespace Mathly.Models
     {
         [Key]
         public string ProgressID { get; set; }
+
+        [Column("userID")]
         public string StudentID { get; set; }
+
         public string TopicID { get; set; }
         public double ProgressPercentage { get; set; }
-        public int ExpPoints { get; set; }
 
         [ForeignKey("StudentID")]
         public StudentInfo Student { get; set; }

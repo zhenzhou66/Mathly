@@ -7,9 +7,14 @@ namespace Mathly.Models
     public class StudyMaterial
     {
         [Key]
+        [Column("materialID")]
         public string MaterialID { get; set; }
+
+        [Column("topicID")]
         public string TopicID { get; set; }
-        public string FileName { get; set; }
+
+        [Column("fileName")]
+        public byte[] FileName { get; set; }
 
         [ForeignKey("TopicID")]
         public Topic Topic { get; set; }

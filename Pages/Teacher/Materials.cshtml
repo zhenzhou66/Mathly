@@ -1,0 +1,141 @@
+@page "/teacher/materials"
+@model Mathly.Pages.Teacher.MaterialsModel
+@{
+    Layout = "_LayoutTeacher";
+    ViewData["Title"] = "Study Materials";
+    ViewData["ActivePage"] = "Materials";
+    ViewData["TeacherName"] = Model.TeacherName;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/TeacherMaterials.css" asp-append-version="true" />
+}
+
+<div class="materials-header">
+    <span class="teacher-view-badge">TEACHER PORTAL</span>
+    <h1 class="materials-title">📚 Study Materials & Resources</h1>
+    <p class="materials-sub">Upload PDF/DOC notes, formula sheets, and study guides for your enrolled students.</p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+        🎉 @Model.SuccessMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+        ⚠️ @Model.ErrorMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Upload Card -->
+<div class="upload-card">
+    <div class="upload-card-title">
+        <span>📤 Upload New Material</span>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" asp-page-handler="Upload">
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-secondary">Select Topic / Chapter</label>
+                <select asp-for="SelectedTopicID" asp-items="Model.TopicOptions" class="form-select py-2">
+                    <option value="">-- Choose a Topic --</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-secondary">Material Title (Optional)</label>
+                <input type="text" asp-for="CustomTitle" class="form-control py-2" placeholder="e.g. Chapter 1 Formula Sheet" />
+            </div>
+        </div>
+
+        <div class="dropzone-container mb-3">
+            <div class="dropzone-icon">📄</div>
+            <div class="dropzone-text" id="dropzoneText">Click or Drag & Drop File Here</div>
+            <div class="dropzone-sub">Supports PDF, DOC, DOCX (Max 15MB)</div>
+            <input type="file" asp-for="UploadFile" class="hidden-file-input" accept=".pdf,.doc,.docx" id="fileInput" onchange="updateFileName(this)" required />
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn-upload-submit">
+                Upload & Attach to Topic 🚀
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Uploaded Materials Table -->
+<div class="materials-table-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-dark mb-0">Attached Materials List</h4>
+        <span class="badge bg-primary bg-opacity-10 text-primary fw-bold px-3 py-2">@Model.MaterialsList.Count Files</span>
+    </div>
+
+    @if (Model.MaterialsList.Any())
+    {
+        <div class="table-responsive">
+            <table class="table materials-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">Type</th>
+                        <th>File Name</th>
+                        <th>Topic</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MaterialsList)
+                    {
+                        <tr>
+                            <td>
+                                <div class="file-type-icon @(item.FileType == "PDF" ? "icon-pdf" : "icon-doc")">
+                                    @(item.FileType == "PDF" ? "PDF" : "DOC")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark">@item.FileName</div>
+                                <div class="text-muted small">ID: @item.MaterialID</div>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary fw-semibold px-2 py-1">@item.TopicName</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="@item.FilePath" download="@item.FileName" class="btn btn-sm btn-outline-primary fw-bold px-3">
+                                        ⬇ Download
+                                    </a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-materialId="@item.MaterialID" onsubmit="return confirm('Remove this material?');" style="display:inline;">
+                                        <button type="submit" class="btn-delete-mat">
+                                            🗑 Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center text-muted py-4">
+            No study materials uploaded yet. Use the upload box above to add your first resource!
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function updateFileName(input) {
+            const dropzoneText = document.getElementById('dropzoneText');
+            if (input.files && input.files[0]) {
+                dropzoneText.textContent = `Selected: ${input.files[0].name}`;
+            }
+        }
+    </script>
+}
