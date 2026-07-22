@@ -8,10 +8,6 @@ namespace Mathly.Models
     {
         [Key]
         public string StudentTopicID { get; set; }
-<<<<<<< HEAD
-=======
-
->>>>>>> 9181d93cb83fd4e0ff4ac9fd2a54ce457806e30b
         [Column("userID")]
         public string StudentID { get; set; }
         public string TopicID { get; set; }
