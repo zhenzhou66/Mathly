@@ -26,14 +26,17 @@
                 {
                     <div class="quiz-row">
                         <div class="quiz-row-title">@q.QuizTitle</div>
-                        @if (q.BestScore.HasValue)
-                        {
-                            <span class="quiz-status-pill quiz-status-done">Best score: @q.BestScore.Value.ToString("0")%</span>
-                        }
-                        else
-                        {
-                            <span class="quiz-status-pill quiz-status-pending">Not attempted</span>
-                        }
+                        <div class="quiz-row-actions">
+                            @if (q.BestScore.HasValue)
+                            {
+                                <span class="quiz-status-pill quiz-status-done">Best score: @q.BestScore.Value.ToString("0")%</span>
+                            }
+                            else
+                            {
+                                <span class="quiz-status-pill quiz-status-pending">Not attempted</span>
+                            }
+                            <a asp-page="/Student/AttemptQuiz" asp-route-quizId="@q.QuizID" class="btn-add-topic">Attempt Quiz</a>
+                        </div>
                     </div>
                 }
             </div>

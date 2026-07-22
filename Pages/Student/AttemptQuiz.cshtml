@@ -1,0 +1,84 @@
+@page "/app/quiz/{quizId}"
+@model Mathly.Pages.Student.AttemptQuizModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Attempt Quiz";
+    ViewData["ActivePage"] = "Quizzes";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentAttemptQuiz.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <h1 class="page-title">📝 @Model.QuizTitle</h1>
+    <p class="page-subtitle">
+        @(Model.Submitted ? "Here's how you did" : "Answer each question, then submit when you're ready")
+    </p>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="content-card">
+        <div class="empty-state">@Model.ErrorMessage</div>
+    </div>
+    <a asp-page="/Student/Quizzes" class="btn-add-topic">Back to Quizzes</a>
+}
+else if (Model.Submitted)
+{
+    <div class="content-card mb-3">
+        <div class="quiz-score-summary">
+            <div class="quiz-score-value">@Model.Score.ToString("0")%</div>
+            <div class="quiz-score-label">@Model.CorrectCount / @Model.TotalQuestions correct</div>
+        </div>
+    </div>
+
+    <div class="content-card mb-3">
+        <div class="content-card-title mb-3">Review</div>
+        @foreach (var q in Model.Questions)
+        {
+            <div class="quiz-review-row @(q.IsCorrect ? "quiz-review-correct" : "quiz-review-incorrect")">
+                <div class="quiz-review-question">@q.QuestionText</div>
+                <div class="quiz-review-answer">
+                    @if (q.IsCorrect)
+                    {
+                        <span>✅ Your answer: @q.StudentAnswer</span>
+                    }
+                    else
+                    {
+                        <span>
+                            ❌ Your answer: @(string.IsNullOrEmpty(q.StudentAnswer) ? "(no answer)" : q.StudentAnswer)
+                            &middot; Correct answer: @q.CorrectAnswer
+                        </span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <a asp-page="/Student/Quizzes" class="btn-add-topic">Back to Quizzes</a>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(Model.ValidationError))
+    {
+        <div class="profile-alert profile-alert-error">@Model.ValidationError</div>
+    }
+
+    <form method="post" class="content-card">
+        @foreach (var q in Model.Questions)
+        {
+            <div class="quiz-attempt-question">
+                <div class="quiz-attempt-question-text">@q.QuestionText</div>
+                <select name="Answers[@q.QuestionID]" class="form-select quiz-attempt-select" required>
+                    <option value="" selected="@(string.IsNullOrEmpty(q.StudentAnswer))" disabled>Select an answer...</option>
+                    <option value="A" selected="@(q.StudentAnswer == "A")">@q.ChoiceA</option>
+                    <option value="B" selected="@(q.StudentAnswer == "B")">@q.ChoiceB</option>
+                    <option value="C" selected="@(q.StudentAnswer == "C")">@q.ChoiceC</option>
+                    <option value="D" selected="@(q.StudentAnswer == "D")">@q.ChoiceD</option>
+                </select>
+            </div>
+        }
+        <button type="submit" class="btn-add-topic quiz-attempt-submit">Submit Quiz</button>
+    </form>
+}

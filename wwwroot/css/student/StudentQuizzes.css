@@ -21,12 +21,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
     padding: 0.6rem 0;
     border-bottom: 1px solid #f5f0eb;
 }
 
 .quiz-row:last-child {
     border-bottom: none;
+}
+
+.quiz-row-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
 .quiz-row-title {
