@@ -1,0 +1,74 @@
+/* ── Attempt Quiz page only ── */
+
+.quiz-attempt-question {
+    padding: 1rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.quiz-attempt-question:last-of-type {
+    border-bottom: none;
+}
+
+.quiz-attempt-question-text {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.6rem;
+}
+
+.quiz-attempt-select {
+    max-width: 420px;
+}
+
+.quiz-attempt-submit {
+    margin-top: 1.25rem;
+}
+
+/* ── Score summary ── */
+.quiz-score-summary {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.quiz-score-value {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #5BAD8F;
+}
+
+.quiz-score-label {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 0.3rem;
+}
+
+/* ── Review list ── */
+.quiz-review-row {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+}
+
+.quiz-review-row:last-child {
+    margin-bottom: 0;
+}
+
+.quiz-review-correct {
+    background-color: rgba(91, 173, 143, 0.1);
+}
+
+.quiz-review-incorrect {
+    background-color: rgba(224, 122, 95, 0.1);
+}
+
+.quiz-review-question {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.quiz-review-answer {
+    font-size: 0.8rem;
+    color: #555;
+    margin-top: 0.3rem;
+}
