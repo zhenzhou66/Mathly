@@ -1,0 +1,147 @@
+@page "/app/daily"
+@model Mathly.Pages.Student.DailyModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Daily Quiz Lobby";
+    ViewData["ActivePage"] = "Daily";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentDaily.css" asp-append-version="true" />
+}
+
+<!-- Daily Hero Banner -->
+<div class="daily-hero mb-4">
+    <div class="daily-title-badge">⚡ DAILY MATH ARENA</div>
+    <h1 class="daily-hero-heading">Today's Daily Challenge 🚀</h1>
+    <p class="daily-hero-sub">
+        Test your skills in today's rapid-fire math quiz! Complete the daily challenge to earn extra XP, maintain your streak, and climb the podium leaderboard.
+    </p>
+
+    <!-- Timer Countdown -->
+    <div class="timer-container">
+        <span class="timer-label">Resets In</span>
+        <span class="timer-clock" id="dailyCountdown">10 : 45 : 22</span>
+    </div>
+</div>
+
+<!-- Lobby Main Grid -->
+<div class="row g-4">
+    <!-- Main Quiz Details Card -->
+    <div class="col-lg-7">
+        <div class="daily-card">
+            <div class="daily-card-header">
+                <div class="daily-card-title">📌 Quiz Overview</div>
+                <span class="meta-pill">Topic: @Model.TopicName</span>
+            </div>
+
+            <h3 class="fw-bold mb-3 text-dark">@Model.DailyQuizTitle</h3>
+
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-icon">❓</div>
+                    <div class="detail-label">Questions</div>
+                    <div class="detail-val">@Model.TotalQuestions Questions</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">⏱️</div>
+                    <div class="detail-label">Time Limit</div>
+                    <div class="detail-val">@Model.EstimatedMinutes Mins</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">⭐</div>
+                    <div class="detail-label">XP Reward</div>
+                    <div class="detail-val">+@Model.ExpPointsReward XP</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">👥</div>
+                    <div class="detail-label">Completed Today</div>
+                    <div class="detail-val">@Model.ParticipantsTodayCount Students</div>
+                </div>
+            </div>
+
+            @if (Model.HasCompletedToday)
+            {
+                <div class="completed-banner mb-3">
+                    <div class="completed-icon">🎉</div>
+                    <div class="completed-title">You Completed Today's Quiz!</div>
+                    <div class="completed-desc">
+                        Score: <strong>@Model.UserTodayScore.ToString("0")%</strong> (@Model.UserTodayCorrect/@Model.TotalQuestions correct). Check your position on the leaderboard!
+                    </div>
+                </div>
+                <a href="/daily/leaderboard" class="btn-start-daily">
+                    🏆 View Leaderboard Podium →
+                </a>
+            }
+            else
+            {
+                <a asp-page="/Student/Quizzes" asp-route-id="@Model.DailyQuizID" class="btn-start-daily">
+                    🚀 Start Daily Quiz Now
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Live Takers & Rules Side Panel -->
+    <div class="col-lg-5">
+        <!-- Rules Card -->
+        <div class="daily-card mb-4" style="background: #F8FAFC;">
+            <div class="daily-card-title mb-3">📜 Arena Rules</div>
+            <ul class="list-unstyled text-secondary small mb-0" style="line-height: 1.8;">
+                <li>• <strong>One Attempt:</strong> Today's challenge score counts towards daily XP.</li>
+                <li>• <strong>Instant Feedback:</strong> See your score and XP breakdown immediately upon submit.</li>
+                <li>• <strong>Leaderboard Boost:</strong> Perfect scores unlock multiplier XP bonuses!</li>
+            </ul>
+        </div>
+
+        <!-- Recent Takers Card -->
+        <div class="daily-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="daily-card-title">🔥 Today's Finishers</div>
+                <span class="badge bg-success bg-opacity-10 text-success fw-bold px-2 py-1">LIVE</span>
+            </div>
+
+            @if (Model.TodayParticipants.Any())
+            {
+                foreach (var taker in Model.TodayParticipants)
+                {
+                    <div class="taker-item">
+                        <div class="taker-avatar">@taker.AvatarChar</div>
+                        <div class="taker-info">
+                            <div class="taker-name">@taker.StudentName</div>
+                        </div>
+                        <div class="taker-score">@taker.Score.ToString("0")%</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted small mb-0">No takers yet today. Be the first!</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Simple live timer script for countdown to midnight
+        function updateTimer() {
+            const now = new Date();
+            const midnight = new Date();
+            midnight.setHours(24, 0, 0, 0);
+            
+            const diff = midnight - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            const pad = (n) => n.toString().padStart(2, '0');
+            const timerEl = document.getElementById('dailyCountdown');
+            if (timerEl) {
+                timerEl.textContent = `${pad(hours)} : ${pad(minutes)} : ${pad(seconds)}`;
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+}
