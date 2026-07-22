@@ -8,6 +8,8 @@ namespace Mathly.Models
     {
         [Key]
         public string StudentTopicID { get; set; }
+
+        [Column("userID")]
         public string StudentID { get; set; }
         public string TopicID { get; set; }
         public DateOnly SelectedDate { get; set; }
