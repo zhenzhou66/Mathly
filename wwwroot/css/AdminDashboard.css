@@ -71,7 +71,7 @@
 }
 
 .admin-sidebar .sidebar-link.active {
-    background-color: #000000; /* Active teal accent */
+    background-color: #000000;
     color: #ffffff;
 }
 
@@ -244,3 +244,4 @@
 }
 
 /* User Management Page Layout */
+
