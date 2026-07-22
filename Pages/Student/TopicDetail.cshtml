@@ -1,0 +1,71 @@
+@page "/app/topic/{topicId}"
+@model Mathly.Pages.Student.TopicDetailModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = Model.TopicName;
+    ViewData["ActivePage"] = "Topics";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentTopicDetail.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/student/StudentQuizzes.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/student/StudentMaterials.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <a asp-page="/Student/Topics" class="topic-detail-back">← Back to Topics</a>
+    <h1 class="page-title">📚 @Model.TopicName</h1>
+    <p class="page-subtitle">@(string.IsNullOrEmpty(Model.TeacherName) ? "Unassigned" : $"Taught by {Model.TeacherName}")</p>
+    <div class="topic-detail-progress">
+        <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: @(Model.ProgressPercentage)%"></div>
+        </div>
+        <span class="topic-detail-progress-label">@Model.ProgressPercentage.ToString("0")% complete</span>
+    </div>
+</div>
+
+<div class="content-card mb-3">
+    <div class="content-card-title mb-3">📝 Quizzes</div>
+    @if (Model.Quizzes.Any())
+    {
+        @foreach (var q in Model.Quizzes)
+        {
+            <div class="quiz-row">
+                <div class="quiz-row-title">@q.QuizTitle</div>
+                <div class="quiz-row-actions">
+                    @if (q.BestScore.HasValue)
+                    {
+                        <span class="quiz-status-pill quiz-status-done">Best score: @q.BestScore.Value.ToString("0")%</span>
+                    }
+                    else
+                    {
+                        <span class="quiz-status-pill quiz-status-pending">Not attempted</span>
+                    }
+                    <a asp-page="/Student/AttemptQuiz" asp-route-quizId="@q.QuizID" class="btn-add-topic">Attempt Quiz</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="empty-state">No quizzes for this topic yet.</div>
+    }
+</div>
+
+<div class="content-card">
+    <div class="content-card-title mb-3">📂 Materials</div>
+    @if (Model.Materials.Any())
+    {
+        @foreach (var m in Model.Materials)
+        {
+            <div class="material-row">
+                <span class="material-icon">📄</span>
+                <span class="material-name">@m.FileName</span>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="empty-state">No materials for this topic yet.</div>
+    }
+</div>

@@ -1,0 +1,33 @@
+/* ── Topic Detail page only ── */
+
+.topic-detail-back {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #888;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+.topic-detail-back:hover {
+    color: #1a1a1a;
+}
+
+.topic-detail-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 420px;
+    margin-top: 1rem;
+}
+
+.topic-detail-progress .progress-bar-track {
+    flex: 1;
+}
+
+.topic-detail-progress-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #5BAD8F;
+    white-space: nowrap;
+}

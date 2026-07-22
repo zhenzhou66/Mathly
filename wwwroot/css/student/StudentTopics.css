@@ -16,6 +16,18 @@
     justify-content: space-between;
     gap: 0.6rem;
     height: 100%;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.my-topic-card {
+    cursor: pointer;
+}
+
+.my-topic-card:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
 }
 
 .topic-tile-name {

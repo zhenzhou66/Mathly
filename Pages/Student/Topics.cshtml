@@ -27,14 +27,14 @@
         <div class="topic-tile-grid">
             @foreach (var t in Model.MyTopics)
             {
-                <div class="topic-tile my-topic-card">
+                <a asp-page="/Student/TopicDetail" asp-route-topicId="@t.TopicID" class="topic-tile my-topic-card">
                     <div class="topic-tile-name">@t.TopicName</div>
                     <div class="topic-tile-teacher">@(t.TeacherName ?? "Unassigned")</div>
                     <div class="progress-bar-track">
                         <div class="progress-bar-fill" style="width: @(t.ProgressPercentage)%"></div>
                     </div>
                     <div class="my-topic-card-percent">@t.ProgressPercentage.ToString("0")% complete</div>
-                </div>
+                </a>
             }
         </div>
     }

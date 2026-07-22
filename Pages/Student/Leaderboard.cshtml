@@ -1,0 +1,149 @@
+@page "/daily/leaderboard"
+@model Mathly.Pages.Student.LeaderboardModel
+@{
+    Layout = "_LayoutStudent";
+    ViewData["Title"] = "Leaderboard Podium";
+    ViewData["ActivePage"] = "Leaderboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/student/StudentLeaderboard.css" asp-append-version="true" />
+}
+
+<!-- Leaderboard Hero & Podium Section -->
+<div class="leaderboard-hero">
+    <h1 class="leaderboard-hero-title">🏆 Mathly Hall of Fame</h1>
+    <p class="leaderboard-hero-sub">Top math champions competing for glory & XP honors!</p>
+
+    <!-- Top 3 Podium -->
+    <div class="podium-container">
+
+        <!-- 2nd Place (Silver) -->
+        @if (Model.SecondPlace != null)
+        {
+            <div class="podium-column podium-2nd">
+                <div class="podium-avatar-wrapper">
+                    <div class="podium-avatar">@Model.SecondPlace.AvatarChar</div>
+                </div>
+                <div class="podium-name">@Model.SecondPlace.StudentName</div>
+                <div class="podium-xp">⭐ @Model.SecondPlace.ExpPoints XP</div>
+                <div class="podium-pedestal">
+                    <span class="pedestal-rank-num">2</span>
+                    <span style="font-size: 0.75rem;">SILVER 🥈</span>
+                </div>
+            </div>
+        }
+
+        <!-- 1st Place (Gold - Center) -->
+        @if (Model.FirstPlace != null)
+        {
+            <div class="podium-column podium-1st">
+                <div class="podium-avatar-wrapper">
+                    <div class="podium-crown">👑</div>
+                    <div class="podium-avatar">@Model.FirstPlace.AvatarChar</div>
+                </div>
+                <div class="podium-name">@Model.FirstPlace.StudentName</div>
+                <div class="podium-xp">⭐ @Model.FirstPlace.ExpPoints XP</div>
+                <div class="podium-pedestal">
+                    <span class="pedestal-rank-num">1</span>
+                    <span style="font-size: 0.75rem;">GOLD 🥇</span>
+                </div>
+            </div>
+        }
+
+        <!-- 3rd Place (Bronze) -->
+        @if (Model.ThirdPlace != null)
+        {
+            <div class="podium-column podium-3rd">
+                <div class="podium-avatar-wrapper">
+                    <div class="podium-avatar">@Model.ThirdPlace.AvatarChar</div>
+                </div>
+                <div class="podium-name">@Model.ThirdPlace.StudentName</div>
+                <div class="podium-xp">⭐ @Model.ThirdPlace.ExpPoints XP</div>
+                <div class="podium-pedestal">
+                    <span class="pedestal-rank-num">3</span>
+                    <span style="font-size: 0.75rem;">BRONZE 🥉</span>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<!-- Full Class Rankings Table -->
+<div class="rankings-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0 text-dark">Overall Rankings</h4>
+        @if (Model.CurrentStudentRank > 0)
+        {
+            <span class="badge bg-success bg-opacity-10 text-success fw-bold fs-6 px-3 py-2">
+                Your Rank: #@Model.CurrentStudentRank (@Model.CurrentStudentXP XP)
+            </span>
+        }
+    </div>
+
+    @if (Model.AllRankings.Any())
+    {
+        <div class="table-responsive">
+            <table class="table rankings-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Rank</th>
+                        <th>Student</th>
+                        <th>School / Academy</th>
+                        <th class="text-end">Total XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model.AllRankings)
+                    {
+                        <tr class="@(s.IsCurrentStudent ? "rankings-row-me" : "")">
+                            <td>
+                                @if (s.Rank == 1)
+                                {
+                                    <span class="rank-badge rank-badge-1">🥇</span>
+                                }
+                                else if (s.Rank == 2)
+                                {
+                                    <span class="rank-badge rank-badge-2">🥈</span>
+                                }
+                                else if (s.Rank == 3)
+                                {
+                                    <span class="rank-badge rank-badge-3">🥉</span>
+                                }
+                                else
+                                {
+                                    <span class="rank-badge rank-badge-other">#@s.Rank</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="student-col">
+                                    <div class="student-table-avatar">@s.AvatarChar</div>
+                                    <div>
+                                        <div class="student-table-name">
+                                            @s.StudentName
+                                            @if (s.IsCurrentStudent)
+                                            {
+                                                <span class="badge bg-primary bg-opacity-10 text-primary ms-1" style="font-size:0.7rem;">YOU</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="student-table-school">@s.School</div>
+                            </td>
+                            <td class="text-end">
+                                <span class="xp-badge-pill">⭐ @s.ExpPoints XP</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center text-muted py-4">No rankings available yet.</div>
+    }
+</div>
