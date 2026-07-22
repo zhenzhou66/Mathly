@@ -209,11 +209,42 @@ namespace Mathly.Pages.Student
 
             _db.QuizResults.Add(newResult);
 
+            int earnedXP = 0;
             // Award XP to student if score > 0
             if (student != null)
             {
-                int earnedXP = (int)(ExpPointsReward * (finalScore / 100.0));
+                earnedXP = (int)(ExpPointsReward * (finalScore / 100.0));
                 student.ExpPoints += earnedXP;
+            }
+
+            // Check if any new badges are unlocked by the updated XP
+            if (student != null)
+            {
+                var unearnedBadges = await _db.Badges
+                    .Where(b => b.ExpPoints <= student.ExpPoints && !_db.StudentBadges.Any(sb => sb.StudentID == StudentID && sb.BadgeID == b.BadgeID))
+                    .ToListAsync();
+
+                foreach (var b in unearnedBadges)
+                {
+                    string sbID = "sb_" + Guid.NewGuid().ToString("N").Substring(0, 8);
+                    _db.StudentBadges.Add(new StudentBadges
+                    {
+                        StudentBadgeID = sbID,
+                        StudentID = StudentID,
+                        BadgeID = b.BadgeID,
+                        EarnedDate = DateOnly.FromDateTime(DateTime.Now)
+                    });
+
+                    string badgeNotifID = "notif_" + Guid.NewGuid().ToString("N").Substring(0, 8);
+                    _db.Notifications.Add(new Notification
+                    {
+                        NotificationID = badgeNotifID,
+                        UserID = StudentID,
+                        Message = $"🏅 Congratulations! You unlocked a new achievement badge!",
+                        Type = "badge",
+                        IsRead = false
+                    });
+                }
             }
 
             await _db.SaveChangesAsync();

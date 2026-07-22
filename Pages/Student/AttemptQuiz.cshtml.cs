@@ -132,6 +132,15 @@ namespace Mathly.Pages.Student
                   VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6})",
                 resultId, quizId, StudentID, firstAttemptId, TotalQuestions, CorrectCount, Score);
 
+            var notifNumber = await GetNextIdNumberAsync("notification", "notificationID", "notif");
+            var notifId = $"notif{notifNumber:D9}";
+            string notifMsg = $"🎉 You completed the quiz '{QuizTitle}' with a score of {Score:0}%!";
+
+            await _db.Database.ExecuteSqlRawAsync(
+                @"INSERT INTO notification (notificationID, userID, message, type, isRead)
+                  VALUES ({0}, {1}, {2}, {3}, {4})",
+                notifId, StudentID, notifMsg, "quiz", 0);
+
             Submitted = true;
             return Page();
         }
