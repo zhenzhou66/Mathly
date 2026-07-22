@@ -21,6 +21,7 @@ namespace Mathly.Pages.Student
 
         public string QuizID { get; set; }
         public string QuizTitle { get; set; }
+        public string TopicID { get; set; }
         public string ErrorMessage { get; set; }
         public string ValidationError { get; set; }
         public List<QuestionRow> Questions { get; set; } = new();
@@ -58,7 +59,7 @@ namespace Mathly.Pages.Student
         public async Task<IActionResult> OnGetAsync(string quizId)
         {
             if (!await LoadQuizAsync(quizId))
-                return RedirectToPage("/Student/Quizzes");
+                return RedirectToPage("/Student/Topics");
 
             return Page();
         }
@@ -66,7 +67,7 @@ namespace Mathly.Pages.Student
         public async Task<IActionResult> OnPostAsync(string quizId)
         {
             if (!await LoadQuizAsync(quizId))
-                return RedirectToPage("/Student/Quizzes");
+                return RedirectToPage("/Student/Topics");
 
             if (!Questions.Any())
                 return Page();
@@ -171,6 +172,7 @@ namespace Mathly.Pages.Student
 
             QuizID = quizId;
             QuizTitle = quiz.QuizTitle;
+            TopicID = quiz.TopicID;
 
             // quizquestions' choice/answer columns don't match the model's property
             // names (questionChoiceA vs ChoiceA, questionAnswer vs Answer), so this

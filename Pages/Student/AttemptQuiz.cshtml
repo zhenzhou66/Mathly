@@ -3,7 +3,7 @@
 @{
     Layout = "_LayoutStudent";
     ViewData["Title"] = "Attempt Quiz";
-    ViewData["ActivePage"] = "Quizzes";
+    ViewData["ActivePage"] = "Topics";
 }
 
 @section Styles {
@@ -22,7 +22,7 @@
     <div class="content-card">
         <div class="empty-state">@Model.ErrorMessage</div>
     </div>
-    <a asp-page="/Student/Quizzes" class="btn-add-topic">Back to Quizzes</a>
+    <a asp-page="/Student/TopicDetail" asp-route-topicId="@Model.TopicID" class="btn-add-topic">Back to Topic</a>
 }
 else if (Model.Submitted)
 {
@@ -56,7 +56,7 @@ else if (Model.Submitted)
         }
     </div>
 
-    <a asp-page="/Student/Quizzes" class="btn-add-topic">Back to Quizzes</a>
+    <a asp-page="/Student/TopicDetail" asp-route-topicId="@Model.TopicID" class="btn-add-topic">Back to Topic</a>
 }
 else
 {
