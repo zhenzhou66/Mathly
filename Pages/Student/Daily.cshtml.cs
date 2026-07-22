@@ -138,14 +138,15 @@ namespace Mathly.Pages.Student
                 .Distinct()
                 .CountAsync();
 
-            // Recent takers
+            // Recent finishers (unique students with their best score today)
             var recentTakers = await _db.Database
                 .SqlQueryRaw<TakerDto>(
-                    @"SELECT si.studentName AS StudentName, qr.score AS Score
+                    @"SELECT si.studentName AS StudentName, MAX(qr.score) AS Score
                       FROM quizresult qr
                       JOIN studentinfo si ON qr.userID = si.userID
                       WHERE qr.quizID = {0}
-                      ORDER BY qr.resultID DESC
+                      GROUP BY si.userID, si.studentName
+                      ORDER BY Score DESC
                       LIMIT 5", DailyQuizID)
                 .ToListAsync();
 
