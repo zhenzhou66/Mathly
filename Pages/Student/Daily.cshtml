@@ -2,7 +2,7 @@
 @model Mathly.Pages.Student.DailyModel
 @{
     Layout = "_LayoutStudent";
-    ViewData["Title"] = "Daily Quiz Lobby";
+    ViewData["Title"] = "Daily Quiz Arena";
     ViewData["ActivePage"] = "Daily";
 }
 
@@ -69,15 +69,20 @@
                         Score: <strong>@Model.UserTodayScore.ToString("0")%</strong> (@Model.UserTodayCorrect/@Model.TotalQuestions correct). Check your position on the leaderboard!
                     </div>
                 </div>
-                <a href="/daily/leaderboard" class="btn-start-daily">
-                    🏆 View Leaderboard Podium →
-                </a>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn-start-daily flex-fill" data-bs-toggle="modal" data-bs-target="#quizArenaModal">
+                        🎮 Play Again
+                    </button>
+                    <a href="/daily/leaderboard" class="btn-start-daily flex-fill text-center" style="background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);">
+                        🏆 Podium →
+                    </a>
+                </div>
             }
             else
             {
-                <a asp-page="/Student/Quizzes" asp-route-id="@Model.DailyQuizID" class="btn-start-daily">
+                <button type="button" class="btn-start-daily" data-bs-toggle="modal" data-bs-target="#quizArenaModal">
                     🚀 Start Daily Quiz Now
-                </a>
+                </button>
             }
         </div>
     </div>
@@ -90,7 +95,7 @@
             <ul class="list-unstyled text-secondary small mb-0" style="line-height: 1.8;">
                 <li>• <strong>One Attempt:</strong> Today's challenge score counts towards daily XP.</li>
                 <li>• <strong>Instant Feedback:</strong> See your score and XP breakdown immediately upon submit.</li>
-                <li>• <strong>Leaderboard Boost:</strong> Perfect scores unlock multiplier XP bonuses!</li>
+                <li>• <strong>Leaderboard Boost:</strong> Higher scores boost your position on the Hall of Fame!</li>
             </ul>
         </div>
 
@@ -122,9 +127,86 @@
     </div>
 </div>
 
+<!-- Interactive Quiz Arena Modal -->
+<div class="modal fade" id="quizArenaModal" tabindex="-1" aria-labelledby="quizArenaModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+            <form method="post" asp-page-handler="SubmitQuiz">
+                <input type="hidden" asp-for="ActiveQuizID" />
+
+                <div class="modal-header bg-dark text-white p-4">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1">LIVE ARENA</span>
+                        <h4 class="modal-title fw-bold" id="quizArenaModalLabel">@Model.DailyQuizTitle</h4>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-4" style="max-height: 70vh; overflow-y: auto;">
+                    @if (Model.QuizQuestions.Any())
+                    {
+                        int qNum = 1;
+                        foreach (var q in Model.QuizQuestions)
+                        {
+                            <div class="mb-4 p-3 border rounded-3 bg-light">
+                                <div class="fw-bold text-dark mb-3">
+                                    <span class="badge bg-primary me-2">Q@qNum</span> @q.QuestionText
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="form-check p-3 border rounded bg-white">
+                                            <input class="form-check-input" type="radio" name="SubmittedAnswers[@q.QuestionID]" id="q_@(q.QuestionID)_A" value="A" required>
+                                            <label class="form-check-label w-100 fw-semibold text-secondary" for="q_@(q.QuestionID)_A">
+                                                A) @q.ChoiceA
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check p-3 border rounded bg-white">
+                                            <input class="form-check-input" type="radio" name="SubmittedAnswers[@q.QuestionID]" id="q_@(q.QuestionID)_B" value="B" required>
+                                            <label class="form-check-label w-100 fw-semibold text-secondary" for="q_@(q.QuestionID)_B">
+                                                B) @q.ChoiceB
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check p-3 border rounded bg-white">
+                                            <input class="form-check-input" type="radio" name="SubmittedAnswers[@q.QuestionID]" id="q_@(q.QuestionID)_C" value="C" required>
+                                            <label class="form-check-label w-100 fw-semibold text-secondary" for="q_@(q.QuestionID)_C">
+                                                C) @q.ChoiceC
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check p-3 border rounded bg-white">
+                                            <input class="form-check-input" type="radio" name="SubmittedAnswers[@q.QuestionID]" id="q_@(q.QuestionID)_D" value="D" required>
+                                            <label class="form-check-label w-100 fw-semibold text-secondary" for="q_@(q.QuestionID)_D">
+                                                D) @q.ChoiceD
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            qNum++;
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">No questions available for this daily quiz.</div>
+                    }
+                </div>
+
+                <div class="modal-footer bg-light p-3">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success fw-bold rounded-pill px-5">Submit Quiz Answers 🚀</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
-        // Simple live timer script for countdown to midnight
         function updateTimer() {
             const now = new Date();
             const midnight = new Date();
