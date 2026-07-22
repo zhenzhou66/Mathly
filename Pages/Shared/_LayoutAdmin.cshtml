@@ -48,6 +48,15 @@
                     Manage Users
                 </a>
 
+                <!-- Teachers Management -->
+                <a asp-page="/Admin/TeacherManagement"
+                   class="sidebar-link @(active == "Teachers" ? "active" : "")">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Manage Teachers
+                </a> 
+
                 <!-- Topics Management -->
                 <a asp-page="/Admin/Topics"
                    class="sidebar-link @(active == "Topics" ? "active" : "")">
@@ -66,19 +75,11 @@
                     Manage Badges
                 </a>
 
-                <!-- Admin Settings / Profile -->
-                <a asp-page="/Admin/Profile"
-                   class="sidebar-link @(active == "Profile" ? "active" : "")">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Admin Profile
-                </a>
-            </nav>
-
             <div class="sidebar-footer">
-                <div class="sidebar-avatar">A</div>
-                <span class="sidebar-teacher-name">@(ViewData["AdminName"] ?? "Admin")</span>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="sidebar-avatar">A</div>
+                    <span class="sidebar-admin-name">@(ViewData["AdminName"] ?? "Admin")</span>
+                </div>    
             </div>
         </aside>
 
