@@ -22,11 +22,12 @@ namespace Mathly.Pages.Admin
             public string Email { get; set; }
             public string PhoneNumber { get; set; }
             public string Role { get; set; }
-            public string Level { get; set; }  
             public string StudyLevel { get; set; }
             public string School { get; set; }
-            public string TopicName { get; set; }
-            public DateOnly JoinedDate { get; set; }
+            public int Age { get; set; }
+            public DateOnly BirthDate { get; set; }
+            public DateOnly DateJoined { get; set; }
+            public int ExpPoints { get; set; }
             public string Status { get; set; }
         }
 
@@ -39,38 +40,23 @@ namespace Mathly.Pages.Admin
 
         private async Task LoadUsersAsync()
         {
-            var logins = await _db.LoginCredentials.ToListAsync();
+            var logins = await _db.LoginCredentials.ToDictionaryAsync(l => l.UserID, l => l.Status);
             var students = await _db.Students.ToListAsync();
-            var teachers = await _db.Teachers.ToListAsync();
-            var admins = await _db.Admins.ToListAsync();
-            var topicsDict = await _db.Topics.ToDictionaryAsync(t => t.TopicID, t => t.TopicName);
 
-            Users = logins.Select(l =>
+            Users = students.Select(s => new UserRow
             {
-                var s = students.FirstOrDefault(x => x.UserID == l.UserID);
-                var t = teachers.FirstOrDefault(x => x.UserID == l.UserID);
-                var a = admins.FirstOrDefault(x => x.UserID == l.UserID);
-
-                var teacherTopic = t != null && !string.IsNullOrEmpty(t.TopicID)
-                    ? topicsDict.GetValueOrDefault(t.TopicID)
-                    : null;
-
-                return new UserRow
-                {
-                    UserID = l.UserID,
-                    Name = s?.StudentName ?? t?.TeacherName ?? a?.AdminName ?? l.UserID,
-                    Email = s?.Email ?? t?.Email ?? a?.Email ?? "",
-                    PhoneNumber = s?.PhoneNumber ?? t?.PhoneNumber ?? a?.PhoneNumber ?? "",
-                    Role = l.Role,
-                    Level = s != null ? $"{s.StudyLevel} · {s.School}"
-                                 : t != null ? (teacherTopic ?? "—")
-                                 : "—",
-                    StudyLevel = s?.StudyLevel,
-                    School = s?.School,
-                    TopicName = teacherTopic,
-                    JoinedDate = s?.DateJoined ?? t?.DateJoined ?? a?.DateJoined ?? default,
-                    Status = l.Status
-                };
+                UserID = s.UserID,
+                Name = s.StudentName ?? s.UserID,
+                Email = s.Email ?? "",
+                PhoneNumber = s.PhoneNumber ?? "",
+                Role = "student",
+                StudyLevel = s.StudyLevel,
+                School = s.School,
+                Age = s.StudentAge,
+                BirthDate = s.BirthDate,
+                DateJoined = s.DateJoined,
+                ExpPoints = s.ExpPoints,
+                Status = logins.GetValueOrDefault(s.UserID, "active")
             })
             .OrderBy(u => u.UserID)
             .ThenBy(u => u.Name)
@@ -113,12 +99,6 @@ namespace Mathly.Pages.Admin
             var student = await _db.Students.FindAsync(userId);
             if (student != null) _db.Students.Remove(student);
 
-            var teacher = await _db.Teachers.FindAsync(userId);
-            if (teacher != null) _db.Teachers.Remove(teacher);
-
-            var admin = await _db.Admins.FindAsync(userId);
-            if (admin != null) _db.Admins.Remove(admin);
-
             _db.LoginCredentials.Remove(login);
             await _db.SaveChangesAsync();
             TempData["Success"] = $"'{userId}' deleted.";
@@ -136,25 +116,9 @@ namespace Mathly.Pages.Admin
                 student.PhoneNumber = phoneNumber;
                 student.StudyLevel = level;
                 student.School = school;
+                await _db.SaveChangesAsync();
+                TempData["Success"] = $"'{userId}' updated.";
             }
-
-            var teacher = await _db.Teachers.FindAsync(userId);
-            if (teacher != null)
-            {
-                teacher.TeacherName = name;
-                teacher.Email = email;
-                teacher.PhoneNumber = phoneNumber;
-            }
-
-            var admin = await _db.Admins.FindAsync(userId);
-            if (admin != null)
-            {
-                admin.AdminName = name;
-                admin.Email = email;
-                admin.PhoneNumber = phoneNumber;
-            }
-            await _db.SaveChangesAsync();
-            TempData["Success"] = $"'{userId}' updated.";
             return RedirectToPage();
         }
     }

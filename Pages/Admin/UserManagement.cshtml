@@ -4,6 +4,8 @@
     Layout = "_LayoutAdmin";
     ViewData["Title"] = "User Management";
     ViewData["ActivePage"] = "Users";
+
+    var studentsOnly = Model.Users?.Where(u => string.Equals(u.Role, "student", StringComparison.OrdinalIgnoreCase)) ?? Enumerable.Empty<dynamic>();
 }
 
 <div class="page-header">
@@ -25,7 +27,7 @@
     <div class="col-lg-12" id="tableCol">
         <div class="content-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="content-card-title">All Users</div>
+                <div class="content-card-title">Students</div>
                 <input type="text" id="userSearch" class="form-control" style="max-width:240px;"
                        placeholder="Search by name or email..." />
             </div>
@@ -33,27 +35,56 @@
             <table class="table table-borderless topics-table mb-0" id="usersTable">
                 <thead>
                     <tr>
-                        <th>User</th>
-                        <th>Role</th>
-                        <th>Level</th>
-                        <th>Joined</th>
+                        <th>UserID</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Age</th>
+                        <th>Birth Date</th>                        
+                        <th>School</th>
+                        <th>Date Joined</th>
+                        <th>Study Level</th>
+                        <th>Exp Points</th>
                         <th>Status</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Users.Any())
+                    @if (studentsOnly.Any())
                     {
-                        @foreach (var u in Model.Users)
+                        @foreach (var u in studentsOnly)
                         {
                             <tr class="user-row" data-search="@($"{u.Name} {u.Email}".ToLower())">
+                                <!-- UserID -->
+                                <td>@u.UserID</td>
+
+                                <!-- Name & Email -->
                                 <td>
                                     <div class="fw-semibold">@u.Name</div>
                                     <div style="font-size:0.8rem;color:#888;">@u.Email</div>
                                 </td>
-                                <td><span class="text-capitalize">@u.Role</span></td>
-                                <td>@u.Level</td>
-                                <td>@u.JoinedDate.ToString("d MMM yyyy")</td>
+
+                                <!-- Phone Number -->
+                                <td>@(string.IsNullOrEmpty(u.PhoneNumber) ? "-" : u.PhoneNumber)</td>
+
+                                <!-- Age -->
+                                <td>@u.Age</td>
+
+                                <!-- Birth Date -->
+                                <td>@(u.BirthDate != null ? u.BirthDate.ToString("d MMM yyyy") : "-")</td>
+
+                                <!-- School -->
+                                <td>@(string.IsNullOrEmpty(u.School) ? "-" : u.School)</td>
+
+                                <!-- Date Joined -->
+                                <td>@(u.DateJoined != null ? u.DateJoined.ToString("d MMM yyyy") : "-")</td>
+
+                                <!-- Study Level -->
+                                <td>@(string.IsNullOrEmpty(u.StudyLevel) ? "-" : u.StudyLevel)</td>                                
+                                
+                                <!-- Exp Points -->
+                                <td>@(u.ExpPoints ?? 0)</td>
+
+                                <!-- Status -->
                                 <td>
                                     @if (u.Status == "active")
                                     {
@@ -64,6 +95,8 @@
                                         <span class="badge bg-secondary">Suspended</span>
                                     }
                                 </td>
+
+                                <!-- Actions -->
                                 <td class="d-flex gap-1">
                                     <button type="button" class="btn-edit"
                                             data-userid="@u.UserID"
@@ -103,7 +136,7 @@
                     }
                     else
                     {
-                        <tr><td colspan="6" class="empty-state">No users found.</td></tr>
+                        <tr><td colspan="11" class="empty-state text-center">No students found.</td></tr>
                     }
                 </tbody>
             </table>
@@ -113,7 +146,7 @@
     <!-- RIGHT: Edit Panel -->
     <div class="col-lg-4" id="editCol" style="display:none;">
         <div class="content-card">
-            <div class="content-card-title mb-3" id="editPanelTitle">Edit User</div>
+            <div class="content-card-title mb-3" id="editPanelTitle">Edit Student</div>
 
             <form method="post" asp-page-handler="EditUser" id="editForm" style="display:none;">
                 <input type="hidden" name="userId" id="editUserId" />
@@ -133,7 +166,6 @@
                     <input type="text" name="phoneNumber" id="editPhone" class="form-control" />
                 </div>
 
-                <!-- Student-only fields -->
                 <div id="studentFields">
                     <div class="mb-3">
                         <label class="profile-label">Study Level</label>
@@ -202,17 +234,16 @@
         }
 
         function closeEditPanel() {
-            // Hide the edit column and reset table back to full width
             document.getElementById('editCol').style.display = 'none';
             
             var tableCol = document.getElementById('tableCol');
             tableCol.classList.remove('col-lg-8');
             tableCol.classList.add('col-lg-12');
 
-            // Reset panel form state
             document.getElementById('editForm').style.display = 'none';
             document.getElementById('editForm').reset();
-            document.getElementById('editPanelEmpty').style.display = 'block';
+            var emptyElement = document.getElementById('editPanelEmpty');
+            if (emptyElement) emptyElement.style.display = 'block';
             document.getElementById('editPanelTitle').textContent = 'Select a user to edit';
         }
     </script>
