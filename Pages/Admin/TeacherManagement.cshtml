@@ -103,7 +103,14 @@
             <form method="post" asp-page-handler="AddTeacher">
                 <div class="mb-3">
                     <label class="profile-label">Full Name</label>
-                    <input type="text" name="NewName" class="form-control" placeholder="Ms. / Mr. Full Name" required />
+                    <div class="input-group">
+                        <select asp-for="NewTitle" class="form-select" style="max-width: 100px;">
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Dr.">Dr.</option>
+                        </select>
+                        <input type="text" name="NewName" class="form-control" placeholder="Full Name" required />
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="profile-label">Email</label>

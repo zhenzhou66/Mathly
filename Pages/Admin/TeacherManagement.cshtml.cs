@@ -35,6 +35,7 @@ namespace Mathly.Pages.Admin
             public string TopicName { get; set; } = "";
         }
 
+        [BindProperty] public string NewTitle { get; set; } = "Mr.";
         [BindProperty] public string NewName { get; set; } = "";
         [BindProperty] public string NewEmail { get; set; } = "";
         [BindProperty] public string NewPhone { get; set; } = "";
@@ -74,10 +75,10 @@ namespace Mathly.Pages.Admin
                 return new TeacherRow
                 {
                     UserID = t.UserID,
-                    Name = t.TeacherName,
-                    Email = t.Email,
-                    PhoneNumber = t.PhoneNumber,
-                    Qualification = t.HighestQualification,
+                    Name = t.TeacherName ?? "",
+                    Email = t.Email ?? "No Email",
+                    PhoneNumber = t.PhoneNumber ?? "-",
+                    Qualification = t.HighestQualification ?? "-",
                     TopicsDisplay = myTopics.Any() ? string.Join(", ", myTopics.Select(x => x.TopicName)) : "—",
                     AssignedTopicIds = string.Join(",", topicIds),
                     StudentCount = studentCount,
@@ -96,6 +97,8 @@ namespace Mathly.Pages.Admin
                 return RedirectToPage();
             }
 
+            string formattedName = $"{NewTitle} {NewName.Trim()}";
+
             var count = await _db.Teachers.CountAsync();
             var newId = $"teacher{(count + 1):D3}";
             while (await _db.LoginCredentials.FindAsync(newId) != null)
@@ -112,7 +115,7 @@ namespace Mathly.Pages.Admin
             _db.Teachers.Add(new TeacherInfo
             {
                 UserID = newId,
-                TeacherName = NewName,
+                TeacherName = formattedName,
                 Email = NewEmail,
                 PhoneNumber = NewPhone,
                 HighestQualification = NewQualification,
