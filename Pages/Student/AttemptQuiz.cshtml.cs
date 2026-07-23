@@ -26,7 +26,7 @@ namespace Mathly.Pages.Student
         public string ValidationError { get; set; }
         public List<QuestionRow> Questions { get; set; } = new();
 
-        // Only meaningful after a successful submission
+
         public bool Submitted { get; set; }
         public int TotalQuestions { get; set; }
         public int CorrectCount { get; set; }
@@ -108,9 +108,6 @@ namespace Mathly.Pages.Student
                 q.IsCorrect = isCorrect;
                 if (isCorrect) correctCount++;
 
-                // quizstudentattempt's student-id column is `userID`, not `StudentID`
-                // like the model property, so this is raw SQL rather than EF's
-                // change tracker (same reason as the "Join topic" handler in Topics.cshtml.cs).
                 var attemptId = $"att{nextAttemptNumber:D9}";
                 nextAttemptNumber++;
                 firstAttemptId ??= attemptId;

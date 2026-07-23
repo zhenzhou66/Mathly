@@ -5,12 +5,23 @@
 }
 
 .discussion-thread-row {
-    padding: 0.9rem 0;
+    display: block;
+    padding: 0.9rem 0.75rem;
+    margin: 0 -0.75rem;
     border-bottom: 1px solid #f5f0eb;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.15s;
 }
 
 .discussion-thread-row:last-child {
     border-bottom: none;
+}
+
+.discussion-thread-row:hover {
+    background-color: #f5f0eb;
 }
 
 .discussion-thread-title {

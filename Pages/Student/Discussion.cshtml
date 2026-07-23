@@ -40,13 +40,13 @@
     {
         @foreach (var t in Model.Threads)
         {
-            <div class="discussion-thread-row">
+            <a asp-page="/Student/DiscussionDetail" asp-route-discussionId="@t.DiscussionID" class="discussion-thread-row">
                 <div class="discussion-thread-title">@t.QuestionTitle</div>
                 <div class="discussion-thread-text">@t.QuestionText</div>
                 <div class="discussion-thread-meta">
-                    by @t.AuthorName &middot; @t.CommentCount comment@(t.CommentCount == 1 ? "" : "s")
+                    by @t.AuthorName &middot; @t.CommentCount comment@(t.CommentCount == 1 ? "" : "s") &middot; @t.PostedAgo
                 </div>
-            </div>
+            </a>
         }
     }
     else
