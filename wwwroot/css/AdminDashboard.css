@@ -243,5 +243,110 @@
     transform: translateY(-1px);
 }
 
-/* User Management Page Layout */
+/* Container & Table Structure */
+.content-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f0f0;
+}
 
+.topics-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Header Styling */
+.topics-table thead th {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 14px 16px;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.topics-table thead th:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.topics-table thead th:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Cell & Row Styling */
+.topics-table tbody td {
+    padding: 16px;
+    vertical-align: middle;
+    color: #2d3748;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.topics-table tbody tr:hover td {
+    background-color: #f8fafc;
+}
+
+.topics-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Buttons & Actions */
+.btn-new-quiz {
+    background-color: #4f46e5;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-new-quiz:hover {
+    background-color: #4338ca;
+    color: #ffffff;
+}
+
+.btn-edit {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+/* Style specifically for delete button if needed */
+form button.btn-edit {
+    color: #dc2626;
+    background-color: #fef2f2;
+    border-color: #fecaca;
+}
+
+form button.btn-edit:hover {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: #a0aec0;
+    padding: 32px !important;
+    font-style: italic;
+}
