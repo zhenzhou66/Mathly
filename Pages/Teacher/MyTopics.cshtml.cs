@@ -14,7 +14,7 @@ namespace Mathly.Pages.Teacher
     public class MyTopicsModel : PageModel
     {
         private readonly MathlyDbContext _db;
-        private string TeacherID => User.FindFirstValue(ClaimTypes.NameIdentifier);
+        private string TeacherID => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
 
         public MyTopicsModel(MathlyDbContext db) => _db = db;
 
@@ -80,7 +80,7 @@ namespace Mathly.Pages.Teacher
                 return Page();
             }
 
-            Topic topic;
+            Topic? topic;
             if (!string.IsNullOrWhiteSpace(TopicForm.TopicId))
             {
                 topic = await _db.Topics.FirstOrDefaultAsync(t => t.TopicID == TopicForm.TopicId && t.TeacherID == TeacherID);
