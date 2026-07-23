@@ -146,6 +146,26 @@ namespace Mathly.Pages.Teacher
                 };
 
                 _db.StudyMaterials.Add(newMaterial);
+
+                // Send notification to all students about the new material
+                var topic = await _db.Topics.FindAsync(SelectedTopicID);
+                string topicName = topic != null ? topic.TopicName : "Math";
+                var students = await _db.Students.ToListAsync();
+
+                foreach (var std in students)
+                {
+                    string notifID = "notif_" + Guid.NewGuid().ToString("N").Substring(0, 8);
+                    var matNotif = new Notification
+                    {
+                        NotificationID = notifID,
+                        UserID = std.UserID,
+                        Message = $"📄 New study material '{safeFileName}' added for {topicName}!",
+                        Type = "material",
+                        IsRead = false
+                    };
+                    _db.Notifications.Add(matNotif);
+                }
+
                 await _db.SaveChangesAsync();
 
                 SuccessMessage = $"Successfully uploaded '{safeFileName}'!";

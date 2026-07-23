@@ -28,6 +28,19 @@ body {
   font-family: "Segoe UI", sans-serif;
   background-color: #ffffff;
   color: #1a1a1a;
+}
+
+.nav-logo {
+  height: 32px !important;
+  width: 32px !important;
+  max-height: 32px !important;
+  max-width: 32px !important;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
