@@ -1,0 +1,82 @@
+/* ── Teacher Discussion Detail page only ── */
+
+.discussion-detail-back {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #888;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+.discussion-detail-back:hover {
+    color: #1a1a1a;
+}
+
+.discussion-detail-question {
+    font-size: 0.92rem;
+    color: #1a1a1a;
+    line-height: 1.5;
+}
+
+.discussion-comment-row {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f5f0eb;
+}
+
+.discussion-comment-row:last-child {
+    border-bottom: none;
+}
+
+.discussion-comment-author {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.discussion-comment-time {
+    font-weight: 400;
+    color: #888;
+}
+
+.discussion-comment-text {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+.comment-like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid #f0ebe4;
+    border-radius: 20px;
+    background-color: transparent;
+    color: #888;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.comment-like-btn:hover {
+    background-color: #f5f0eb;
+}
+
+.comment-like-heart {
+    font-size: 0.95rem;
+    line-height: 1;
+    transition: transform 0.15s;
+}
+
+.comment-like-btn.comment-like-active {
+    color: #E07A5F;
+    border-color: rgba(224, 122, 95, 0.4);
+    background-color: rgba(224, 122, 95, 0.1);
+}
+
+.comment-like-btn.comment-like-active .comment-like-heart {
+    transform: scale(1.15);
+}

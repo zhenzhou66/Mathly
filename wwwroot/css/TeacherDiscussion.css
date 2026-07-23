@@ -1,0 +1,43 @@
+/* ── Teacher Discussion page only ── */
+
+.discussion-form textarea.form-control {
+    resize: vertical;
+}
+
+.discussion-thread-row {
+    display: block;
+    padding: 0.9rem 0.75rem;
+    margin: 0 -0.75rem;
+    border-bottom: 1px solid #f5f0eb;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.discussion-thread-row:last-child {
+    border-bottom: none;
+}
+
+.discussion-thread-row:hover {
+    background-color: #f5f0eb;
+}
+
+.discussion-thread-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.discussion-thread-text {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+.discussion-thread-meta {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.4rem;
+}
