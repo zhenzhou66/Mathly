@@ -118,10 +118,10 @@ namespace Mathly.Pages.Student
 
             ActiveQuizID = DailyQuizID;
 
-            // Check if student completed today's quiz
+            // Check if student completed today's quiz (fetch student's best score of the day)
             var existingResult = await _db.QuizResults
                 .Where(r => r.StudentID == StudentID && r.QuizID == DailyQuizID)
-                .OrderByDescending(r => r.ResultID)
+                .OrderByDescending(r => r.Score)
                 .FirstOrDefaultAsync();
 
             if (existingResult != null)

@@ -1,3 +1,5 @@
+@inject Mathly.Data.MathlyDbContext DbContext
+@using System.Security.Claims
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +28,27 @@
             <nav class="sidebar-nav">
                 @{
                     var active = ViewData["ActivePage"]?.ToString();
+                    string studentDisplayName = ViewData["StudentName"]?.ToString();
+
+                    if (string.IsNullOrEmpty(studentDisplayName))
+                    {
+                        var studentId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        if (!string.IsNullOrEmpty(studentId))
+                        {
+                            var studentObj = DbContext.Students.Find(studentId);
+                            if (studentObj != null && !string.IsNullOrEmpty(studentObj.StudentName))
+                            {
+                                studentDisplayName = studentObj.StudentName;
+                            }
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(studentDisplayName))
+                    {
+                        studentDisplayName = "Student";
+                    }
+
+                    string avatarInitial = studentDisplayName.Substring(0, 1).ToUpper();
                 }
 
                 <a asp-page="/Student/Dashboard"
@@ -106,8 +129,8 @@
 
             <div class="sidebar-footer">
                 <div class="sidebar-footer-user">
-                    <div class="sidebar-avatar">S</div>
-                    <span class="sidebar-teacher-name">@(ViewData["StudentName"] ?? "Student")</span>
+                    <div class="sidebar-avatar">@avatarInitial</div>
+                    <span class="sidebar-teacher-name">@studentDisplayName</span>
                 </div>
                 <a asp-page="/Logout" class="sidebar-link">Log out</a>
             </div>
