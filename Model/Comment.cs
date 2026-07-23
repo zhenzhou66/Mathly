@@ -11,6 +11,7 @@ namespace Mathly.Models
         public string UserID { get; set; }
         public string DiscussionID { get; set; }
         public string CommentText { get; set; }
+        public DateTime PostedDate { get; set; }
 
         [ForeignKey("UserID")]
         public LoginCredentials User { get; set; }

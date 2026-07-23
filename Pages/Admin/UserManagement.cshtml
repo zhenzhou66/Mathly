@@ -4,8 +4,6 @@
     Layout = "_LayoutAdmin";
     ViewData["Title"] = "User Management";
     ViewData["ActivePage"] = "Users";
-
-    var studentsOnly = Model.Users?.Where(u => string.Equals(u.Role, "student", StringComparison.OrdinalIgnoreCase)) ?? Enumerable.Empty<dynamic>();
 }
 
 <div class="page-header">
@@ -27,7 +25,7 @@
     <div class="col-lg-12" id="tableCol">
         <div class="content-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="content-card-title">Students</div>
+                <div class="content-card-title">All users</div>
                 <input type="text" id="userSearch" class="form-control" style="max-width:240px;"
                        placeholder="Search by name or email..." />
             </div>
@@ -37,21 +35,21 @@
                     <tr>
                         <th>UserID</th>
                         <th>Name</th>
+                        <th>Password</th>
                         <th>Phone Number</th>
                         <th>Age</th>
-                        <th>Birth Date</th>                        
-                        <th>School</th>
+                        <th>Birth Date</th>   
+                        <th>Study Level</th>                     
                         <th>Date Joined</th>
-                        <th>Study Level</th>
                         <th>Exp Points</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (studentsOnly.Any())
+                    @if (Model.Users.Any())
                     {
-                        @foreach (var u in studentsOnly)
+                        @foreach (var u in Model.Users)
                         {
                             <tr class="user-row" data-search="@($"{u.Name} {u.Email}".ToLower())">
                                 <!-- UserID -->
@@ -63,26 +61,38 @@
                                     <div style="font-size:0.8rem;color:#888;">@u.Email</div>
                                 </td>
 
+                                <!-- Password -->
+                                <td class="d-flex gap-1 align-items-center">
+                                    <span class="password-display" id="pwd-@u.UserID" style="display:none; font-family:monospace; font-size:0.85rem; margin-right:4px;">
+                                            @u.Password
+                                        </span>
+                                        <button type="button" class="btn-edit" onclick="togglePassword('@u.UserID')" id="pwdBtn-@u.UserID">
+                                            show
+                                        </button>
+                                </td>
+
                                 <!-- Phone Number -->
                                 <td>@(string.IsNullOrEmpty(u.PhoneNumber) ? "-" : u.PhoneNumber)</td>
 
                                 <!-- Age -->
-                                <td>@u.Age</td>
+                                <td>@(u.Age?.ToString() ?? "-")</td>
 
                                 <!-- Birth Date -->
-                                <td>@(u.BirthDate != null ? u.BirthDate.ToString("d MMM yyyy") : "-")</td>
-
-                                <!-- School -->
-                                <td>@(string.IsNullOrEmpty(u.School) ? "-" : u.School)</td>
+                                <td>@(u.BirthDate?.ToString("dd MMM yyyy") ?? "-")</td>
+                                
+                                <!-- Study Level & School -->
+                                <td>
+                                    @(!string.IsNullOrEmpty(u.StudyLevel) && !string.IsNullOrEmpty(u.School) 
+                                        ? $"{u.StudyLevel} ({u.School})" 
+                                        : !string.IsNullOrEmpty(u.StudyLevel) ? u.StudyLevel 
+                                        : !string.IsNullOrEmpty(u.School) ? u.School : "-")
+                                </td>
 
                                 <!-- Date Joined -->
-                                <td>@(u.DateJoined != null ? u.DateJoined.ToString("d MMM yyyy") : "-")</td>
+                                <td>@(u.DateJoined != default ? u.DateJoined.ToString("d MMM yyyy") : "-")</td>
 
-                                <!-- Study Level -->
-                                <td>@(string.IsNullOrEmpty(u.StudyLevel) ? "-" : u.StudyLevel)</td>                                
-                                
                                 <!-- Exp Points -->
-                                <td>@(u.ExpPoints ?? 0)</td>
+                                <td>@(u.ExpPoints?.ToString() ?? "-")</td>
 
                                 <!-- Status -->
                                 <td>
@@ -97,7 +107,7 @@
                                 </td>
 
                                 <!-- Actions -->
-                                <td class="d-flex gap-1">
+                                <td class="d-flex gap-1 align-items-center">
                                     <button type="button" class="btn-edit"
                                             data-userid="@u.UserID"
                                             data-name="@u.Name"
@@ -136,7 +146,7 @@
                     }
                     else
                     {
-                        <tr><td colspan="11" class="empty-state text-center">No students found.</td></tr>
+                        <tr><td colspan="11" class="empty-state text-center">No users found.</td></tr>
                     }
                 </tbody>
             </table>
@@ -146,7 +156,7 @@
     <!-- RIGHT: Edit Panel -->
     <div class="col-lg-4" id="editCol" style="display:none;">
         <div class="content-card">
-            <div class="content-card-title mb-3" id="editPanelTitle">Edit Student</div>
+            <div class="content-card-title mb-3" id="editPanelTitle">Edit User</div>
 
             <form method="post" asp-page-handler="EditUser" id="editForm" style="display:none;">
                 <input type="hidden" name="userId" id="editUserId" />
@@ -164,6 +174,11 @@
                 <div class="mb-3">
                     <label class="profile-label">Phone Number</label>
                     <input type="text" name="phoneNumber" id="editPhone" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="profile-label">Reset Password</label>
+                    <input type="password" name="newPassword" id="editPassword" class="form-control" placeholder="Leave blank to keep current password" />
                 </div>
 
                 <div id="studentFields">
@@ -203,6 +218,19 @@
             });
         });
 
+        function togglePassword(userId) {
+            var span = document.getElementById('pwd-' + userId);
+            var btn = document.getElementById('pwdBtn-' + userId);
+
+            if (span.style.display === 'none') {
+                span.style.display = 'inline';
+                btn.textContent = 'hide';
+            } else {
+                span.style.display = 'none';
+                btn.textContent = 'show';
+            }
+        }
+
         function openEditPanel(btn) {
             var d = btn.dataset;
 
@@ -215,6 +243,7 @@
             document.getElementById('editName').value = d.name || '';
             document.getElementById('editEmail').value = d.email || '';
             document.getElementById('editPhone').value = d.phone || '';
+            document.getElementById('editPassword').value = ''; 
 
             var studentFields = document.getElementById('studentFields');
             if (d.role === 'student') {

@@ -77,31 +77,10 @@
                                             data-phone="@t.PhoneNumber" data-qualification="@t.Qualification"
                                             onclick="openEditPanel(this)">edit</button>
 
-                                    <button type="button" class="btn-edit"
+                                    <button type="button" class="btn-assign"
                                             data-userid="@t.UserID" data-name="@t.Name"
                                             data-assigned="@t.AssignedTopicIds"
-                                            onclick="openTopicsPanel(this)">topics</button>
-
-                                    @if (t.Status == "active")
-                                    {
-                                        <form method="post" asp-page-handler="Suspend" style="display:inline"
-                                              onsubmit="return confirm('Suspend @t.UserID?');">
-                                            <input type="hidden" name="teacherId" value="@t.UserID" />
-                                            <button type="submit" class="btn-edit">suspend</button>
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <form method="post" asp-page-handler="Restore" style="display:inline">
-                                            <input type="hidden" name="teacherId" value="@t.UserID" />
-                                            <button type="submit" class="btn-edit">restore</button>
-                                        </form>
-                                        <form method="post" asp-page-handler="DeleteTeacher" style="display:inline"
-                                              onsubmit="return confirm('Permanently delete @t.UserID? This cannot be undone.');">
-                                            <input type="hidden" name="teacherId" value="@t.UserID" />
-                                            <button type="submit" class="btn-edit">delete</button>
-                                        </form>
-                                    }
+                                            onclick="openTopicsPanel(this)">assign</button>                                   
                                 </td>
                             </tr>
                         }
@@ -115,7 +94,7 @@
         </div>
     </div>
 
-    <!-- RIGHT: Panel — Add / Edit / Topics (hidden until triggered) -->
+    <!-- RIGHT: Panel -->
     <div class="col-lg-4" id="panelCol" style="display:none;">
 
         <!-- ADD TEACHER FORM -->
