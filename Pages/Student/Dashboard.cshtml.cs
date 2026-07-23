@@ -25,6 +25,7 @@ namespace Mathly.Pages.Student
 
         public class ProgressRow
         {
+            public string TopicID { get; set; }
             public string TopicName { get; set; }
             public double ProgressPercentage { get; set; }
         }
@@ -42,18 +43,6 @@ namespace Mathly.Pages.Student
             public string BadgeName { get; set; }
             public int RequiredExp { get; set; }
             public DateOnly EarnedDate { get; set; }
-        }
-
-        private class ProgressDto
-        {
-            public string TopicID { get; set; }
-            public double ProgressPercentage { get; set; }
-        }
-
-        private class TopicNameDto
-        {
-            public string TopicID { get; set; }
-            public string TopicName { get; set; }
         }
 
         private class LeaderboardDto
@@ -80,30 +69,33 @@ namespace Mathly.Pages.Student
                 ExpPoints = student.ExpPoints;
             }
 
-            // Raw SQL: learning progress for this student (learningprogress uses userID column)
-            var progressDtos = await _db.Database
-                .SqlQueryRaw<ProgressDto>(
-                    "SELECT topicID AS TopicID, progressPercentage AS ProgressPercentage FROM learningprogress WHERE userID = {0}", StudentID)
+            // Progress = quizzes the student has attempted / total quizzes for the topic,
+            // scoped to topics the student has joined (studenttopic uses a `userID` column,
+            // not `StudentID` like the model property, hence raw SQL).
+            ProgressList = await _db.Database
+                .SqlQueryRaw<ProgressRow>(
+                    @"SELECT t.topicID AS TopicID, t.topicName AS TopicName,
+                             CASE WHEN tot.TotalQuizzes > 0
+                                  THEN ROUND(COALESCE(comp.CompletedQuizzes, 0) * 100.0 / tot.TotalQuizzes, 1)
+                                  ELSE 0 END AS ProgressPercentage
+                      FROM studenttopic st
+                      JOIN topic t ON st.topicID = t.topicID
+                      LEFT JOIN (
+                          SELECT topicID, COUNT(*) AS TotalQuizzes
+                          FROM quizzes
+                          GROUP BY topicID
+                      ) tot ON tot.topicID = t.topicID
+                      LEFT JOIN (
+                          SELECT q.topicID, COUNT(DISTINCT q.quizID) AS CompletedQuizzes
+                          FROM quizzes q
+                          JOIN quizresult qr ON qr.quizID = q.quizID AND qr.userID = {0}
+                          GROUP BY q.topicID
+                      ) comp ON comp.topicID = t.topicID
+                      WHERE st.userID = {0}
+                      ORDER BY t.topicName", StudentID)
                 .ToListAsync();
 
-            TopicsInProgress = progressDtos.Count(p => p.ProgressPercentage < 100);
-
-            if (progressDtos.Any())
-            {
-                var topicIds = progressDtos.Select(p => p.TopicID).ToList();
-                var topicNames = await _db.Topics
-                    .Where(t => topicIds.Contains(t.TopicID))
-                    .Select(t => new TopicNameDto { TopicID = t.TopicID, TopicName = t.TopicName })
-                    .ToListAsync();
-
-                ProgressList = progressDtos
-                    .Join(topicNames, p => p.TopicID, t => t.TopicID, (p, t) => new ProgressRow
-                    {
-                        TopicName = t.TopicName,
-                        ProgressPercentage = p.ProgressPercentage
-                    })
-                    .ToList();
-            }
+            TopicsInProgress = ProgressList.Count(p => p.ProgressPercentage < 100);
 
             // Raw SQL: leaderboard (top 5 students by XP)
             var leaderboardDtos = await _db.Database

@@ -68,14 +68,28 @@ namespace Mathly.Pages.Student
 
         private async Task LoadAsync()
         {
+            // Progress = quizzes the student has attempted / total quizzes for the topic
+            // (not the `learningprogress` table, which isn't kept in sync with attempts).
             MyTopics = (await _db.Database
                 .SqlQueryRaw<MyTopicRow>(
                     @"SELECT t.topicID AS TopicID, t.topicName AS TopicName, ti.teacherName AS TeacherName,
-                             COALESCE(lp.progressPercentage, 0) AS ProgressPercentage
+                             CASE WHEN tot.TotalQuizzes > 0
+                                  THEN ROUND(COALESCE(comp.CompletedQuizzes, 0) * 100.0 / tot.TotalQuizzes, 1)
+                                  ELSE 0 END AS ProgressPercentage
                       FROM studenttopic st
                       JOIN topic t ON st.topicID = t.topicID
                       LEFT JOIN teacherinfo ti ON t.userID = ti.userID
-                      LEFT JOIN learningprogress lp ON lp.topicID = t.topicID AND lp.userID = st.userID
+                      LEFT JOIN (
+                          SELECT topicID, COUNT(*) AS TotalQuizzes
+                          FROM quizzes
+                          GROUP BY topicID
+                      ) tot ON tot.topicID = t.topicID
+                      LEFT JOIN (
+                          SELECT q.topicID, COUNT(DISTINCT q.quizID) AS CompletedQuizzes
+                          FROM quizzes q
+                          JOIN quizresult qr ON qr.quizID = q.quizID AND qr.userID = {0}
+                          GROUP BY q.topicID
+                      ) comp ON comp.topicID = t.topicID
                       WHERE st.userID = {0}
                       ORDER BY t.topicName", StudentID)
                 .ToListAsync());

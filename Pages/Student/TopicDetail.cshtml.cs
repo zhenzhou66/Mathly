@@ -62,13 +62,29 @@ namespace Mathly.Pages.Student
             if (isJoined == 0)
                 return RedirectToPage("/Student/Topics");
 
+            // Progress = quizzes the student has attempted / total quizzes for the topic
+            // (not the `learningprogress` table, which isn't kept in sync with attempts).
             var topic = await _db.Database
                 .SqlQueryRaw<TopicDto>(
                     @"SELECT t.topicID AS TopicID, t.topicName AS TopicName, ti.teacherName AS TeacherName,
-                             COALESCE(lp.progressPercentage, 0) AS ProgressPercentage
+                             CASE WHEN tot.TotalQuizzes > 0
+                                  THEN ROUND(COALESCE(comp.CompletedQuizzes, 0) * 100.0 / tot.TotalQuizzes, 1)
+                                  ELSE 0 END AS ProgressPercentage
                       FROM topic t
                       LEFT JOIN teacherinfo ti ON t.userID = ti.userID
-                      LEFT JOIN learningprogress lp ON lp.topicID = t.topicID AND lp.userID = {0}
+                      LEFT JOIN (
+                          SELECT topicID, COUNT(*) AS TotalQuizzes
+                          FROM quizzes
+                          WHERE topicID = {1}
+                          GROUP BY topicID
+                      ) tot ON tot.topicID = t.topicID
+                      LEFT JOIN (
+                          SELECT q.topicID, COUNT(DISTINCT q.quizID) AS CompletedQuizzes
+                          FROM quizzes q
+                          JOIN quizresult qr ON qr.quizID = q.quizID AND qr.userID = {0}
+                          WHERE q.topicID = {1}
+                          GROUP BY q.topicID
+                      ) comp ON comp.topicID = t.topicID
                       WHERE t.topicID = {1}", StudentID, topicId)
                 .FirstOrDefaultAsync();
 
