@@ -8,7 +8,7 @@ namespace Mathly.Models
     {
         [Key]
         public string BadgeID { get; set; }
+        public string BadgeName { get; set; } = "";
         public int ExpPoints { get; set; }
-        public byte[] BadgeImage { get; set; }
-    }
+        public string IconClass { get; set; } = "bi-star-fill";    }
 }

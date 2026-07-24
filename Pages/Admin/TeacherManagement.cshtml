@@ -72,11 +72,6 @@
                                     }
                                 </td>
                                 <td class="d-flex gap-1">
-                                    <button type="button" class="btn-edit"
-                                            data-userid="@t.UserID" data-name="@t.Name" data-email="@t.Email"
-                                            data-phone="@t.PhoneNumber" data-qualification="@t.Qualification"
-                                            onclick="openEditPanel(this)">edit</button>
-
                                     <button type="button" class="btn-assign"
                                             data-userid="@t.UserID" data-name="@t.Name"
                                             data-assigned="@t.AssignedTopicIds"
@@ -147,34 +142,6 @@
             </form>
         </div>
 
-        <!-- EDIT TEACHER FORM -->
-        <div class="content-card" id="editPanel" style="display:none;">
-            <div class="content-card-title mb-3" id="editPanelTitle">Edit Teacher</div>
-            <form method="post" asp-page-handler="EditTeacher">
-                <input type="hidden" name="teacherId" id="editTeacherId" />
-                <div class="mb-3">
-                    <label class="profile-label">Full Name</label>
-                    <input type="text" name="name" id="editName" class="form-control" required />
-                </div>
-                <div class="mb-3">
-                    <label class="profile-label">Email</label>
-                    <input type="email" name="email" id="editEmail" class="form-control" />
-                </div>
-                <div class="mb-3">
-                    <label class="profile-label">Phone</label>
-                    <input type="text" name="phoneNumber" id="editPhone" class="form-control" />
-                </div>
-                <div class="mb-3">
-                    <label class="profile-label">Highest Qualification</label>
-                    <input type="text" name="qualification" id="editQualification" class="form-control" />
-                </div>
-                <div class="d-flex gap-2 mt-4">
-                    <button type="submit" class="btn-new-quiz flex-grow-1">Save Changes</button>
-                    <button type="button" class="btn-edit" onclick="closePanel()">Cancel</button>
-                </div>
-            </form>
-        </div>
-
         <!-- ASSIGN TOPICS FORM -->
         <div class="content-card" id="topicsPanel" style="display:none;">
             <div class="content-card-title mb-3" id="topicsPanelTitle">Assign Topics</div>
@@ -195,7 +162,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 </div>
 
@@ -210,29 +176,12 @@
 
         function hideAllPanels() {
             document.getElementById('addPanel').style.display = 'none';
-            document.getElementById('editPanel').style.display = 'none';
             document.getElementById('topicsPanel').style.display = 'none';
         }
 
         function openAddPanel() {
             hideAllPanels();
             document.getElementById('addPanel').style.display = 'block';
-            showPanelCol();
-            document.getElementById('panelCol').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function openEditPanel(btn) {
-            var d = btn.dataset;
-            hideAllPanels();
-
-            document.getElementById('editPanelTitle').textContent = 'Edit ' + d.name;
-            document.getElementById('editTeacherId').value = d.userid;
-            document.getElementById('editName').value = d.name;
-            document.getElementById('editEmail').value = d.email;
-            document.getElementById('editPhone').value = d.phone;
-            document.getElementById('editQualification').value = d.qualification;
-
-            document.getElementById('editPanel').style.display = 'block';
             showPanelCol();
             document.getElementById('panelCol').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }

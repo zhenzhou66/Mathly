@@ -135,22 +135,6 @@ namespace Mathly.Pages.Admin
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostEditTeacherAsync(
-            string teacherId, string name, string email, string phoneNumber, string qualification)
-        {
-            var teacher = await _db.Teachers.FindAsync(teacherId);
-            if (teacher != null)
-            {
-                teacher.TeacherName = name;
-                teacher.Email = email;
-                teacher.PhoneNumber = phoneNumber;
-                teacher.HighestQualification = qualification;
-                await _db.SaveChangesAsync();
-                TempData["Success"] = $"'{name}' updated.";
-            }
-            return RedirectToPage();
-        }
-
         public async Task<IActionResult> OnPostAssignTopicsAsync(string teacherId, List<string>? topicIds)
         {
             topicIds ??= new List<string>();

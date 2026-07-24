@@ -22,10 +22,10 @@ namespace Mathly.Pages.Admin
             public string Email { get; set; } = "";
             public string PhoneNumber { get; set; } = "";
             public string Role { get; set; } = "";
-            public string Level { get; set; } = "";      
             public string? StudyLevel { get; set; } 
             public string? School { get; set; }
             public int? Age { get; set; }
+            public string? Qualification { get; set; } 
             public string? TopicName { get; set; }
             public int? ExpPoints { get; set; }
             public DateOnly? BirthDate { get; set; }
@@ -66,14 +66,11 @@ namespace Mathly.Pages.Admin
                     Email = s?.Email ?? t?.Email ?? a?.Email ?? "",
                     PhoneNumber = s?.PhoneNumber ?? t?.PhoneNumber ?? a?.PhoneNumber ?? "",
                     Role = l.Role,
-                    // Students show "Form X · School"; teachers show their topic; admins show "—"
-                    Level = s != null ? $"{s.StudyLevel} · {s.School}"
-                          : t != null ? (teacherTopic ?? "—")
-                          : "—",
                     StudyLevel = s?.StudyLevel,
                     School = s?.School,
                     Age = s?.StudentAge,
                     TopicName = teacherTopic,
+                    Qualification = t?.HighestQualification, 
                     ExpPoints = s?.ExpPoints,
                     BirthDate = s?.BirthDate,
                     DateJoined = s?.DateJoined ?? t?.DateJoined ?? a?.DateJoined ?? default,

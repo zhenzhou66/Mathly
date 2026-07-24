@@ -116,6 +116,25 @@
                                             data-role="@u.Role"
                                             data-level="@u.StudyLevel"
                                             data-school="@u.School"
+                                            data-age="@(u.Age?.ToString() ?? "")"
+                                            data-birthdate="@(u.BirthDate?.ToString("dd MMM yyyy") ?? "")"
+                                            data-joined="@u.DateJoined.ToString("dd MMM yyyy")"
+                                            data-exp="@(u.ExpPoints?.ToString() ?? "")"
+                                            data-topic="@(u.TopicName ?? "")"
+                                            data-qualification="@(u.Qualification ?? "")"
+                                            data-status="@u.Status"
+                                            onclick="openViewPanel(this)">
+                                        view
+                                    </button>
+
+                                    <button type="button" class="btn-edit"
+                                            data-userid="@u.UserID"
+                                            data-name="@u.Name"
+                                            data-email="@u.Email"
+                                            data-phone="@u.PhoneNumber"
+                                            data-role="@u.Role"
+                                            data-level="@u.StudyLevel"
+                                            data-school="@u.School"
                                             onclick="openEditPanel(this)">
                                         edit
                                     </button>
@@ -153,9 +172,82 @@
         </div>
     </div>
 
-    <!-- RIGHT: Edit Panel -->
+    <!-- RIGHT: View & Edit Panel -->
     <div class="col-lg-4" id="editCol" style="display:none;">
         <div class="content-card">
+
+            <div id="viewPanel" style="display:none;">
+            <div class="content-card-title mb-3" id="viewPanelTitle">User Details</div>
+
+            <div class="mb-3">
+                <div class="profile-label">User ID</div>
+                <div id="viewUserId" class="fw-semibold"></div>
+            </div>
+            <div class="mb-3">
+                <div class="profile-label">Role</div>
+                <div id="viewRole" class="text-capitalize fw-semibold"></div>
+            </div>
+            <div class="mb-3">
+                <div class="profile-label">Name</div>
+                <div id="viewName"></div>
+            </div>
+            <div class="mb-3">
+                <div class="profile-label">Email</div>
+                <div id="viewEmail"></div>
+            </div>
+            <div class="mb-3">
+                <div class="profile-label">Phone</div>
+                <div id="viewPhone"></div>
+            </div>
+            <div class="mb-3">
+                <div class="profile-label">Status</div>
+                <div id="viewStatus"></div>
+            </div>
+            <div class="mb-3">
+                <div class="profile-label">Joined</div>
+                <div id="viewJoined"></div>
+            </div>
+
+            <!-- Student-only -->
+            <div id="viewStudentFields" style="display:none;">
+                <div class="mb-3">
+                    <div class="profile-label">Age</div>
+                    <div id="viewAge"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="profile-label">Birth Date</div>
+                    <div id="viewBirthDate"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="profile-label">Study Level</div>
+                    <div id="viewLevel"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="profile-label">School</div>
+                    <div id="viewSchool"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="profile-label">Exp Points</div>
+                    <div id="viewExp"></div>
+                </div>
+            </div>
+
+            <!-- Teacher-only -->
+            <div id="viewTeacherFields" style="display:none;">
+                <div class="mb-3">
+                    <div class="profile-label">Qualification</div>
+                    <div id="viewQualification"></div>
+                </div>
+                <div class="mb-3">
+                    <div class="profile-label">Assigned Topic</div>
+                    <div id="viewTopic"></div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-edit mt-3 w-100" onclick="closeEditPanel()">Close</button>
+        </div>
+
+        <div id="editPanelTitle-wrapper">
             <div class="content-card-title mb-3" id="editPanelTitle">Edit User</div>
 
             <form method="post" asp-page-handler="EditUser" id="editForm" style="display:none;">
@@ -229,6 +321,53 @@
                 span.style.display = 'none';
                 btn.textContent = 'show';
             }
+        }
+
+        function showPanelCol() {
+            var tableCol = document.getElementById('tableCol');
+            tableCol.classList.remove('col-lg-12');
+            tableCol.classList.add('col-lg-8');
+            document.getElementById('editCol').style.display = 'block';
+        }
+
+        function openViewPanel(btn) {
+            var d = btn.dataset;
+
+            document.getElementById('editForm').style.display = 'none';
+            document.getElementById('viewPanel').style.display = 'block';
+
+            document.getElementById('viewPanelTitle').textContent = d.name + "'s Details";
+            document.getElementById('viewUserId').textContent = d.userid || '-';
+            document.getElementById('viewRole').textContent = d.role || '-';
+            document.getElementById('viewName').textContent = d.name || '-';
+            document.getElementById('viewEmail').textContent = d.email || '-';
+            document.getElementById('viewPhone').textContent = d.phone || '-';
+            document.getElementById('viewStatus').textContent = d.status === 'active' ? 'Active' : 'Suspended';
+            document.getElementById('viewJoined').textContent = d.joined || '-';
+
+             var studentBlock = document.getElementById('viewStudentFields');
+            var teacherBlock = document.getElementById('viewTeacherFields');
+
+            if (d.role === 'student') {
+                studentBlock.style.display = 'block';
+                teacherBlock.style.display = 'none';
+                document.getElementById('viewAge').textContent = d.age || '-';
+                document.getElementById('viewBirthDate').textContent = d.birthdate || '-';
+                document.getElementById('viewLevel').textContent = d.level || '-';
+                document.getElementById('viewSchool').textContent = d.school || '-';
+                document.getElementById('viewExp').textContent = d.exp || '-';
+            } else if (d.role === 'teacher') {
+                studentBlock.style.display = 'none';
+                teacherBlock.style.display = 'block';
+                document.getElementById('viewQualification').textContent = d.qualification || '-';
+                document.getElementById('viewTopic').textContent = d.topic || '—';
+            } else {
+                studentBlock.style.display = 'none';
+                teacherBlock.style.display = 'none';
+            }
+
+            showPanelCol();
+            document.getElementById('editCol').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function openEditPanel(btn) {
